@@ -16,7 +16,7 @@ function scene:create( event )
         background.xScale = (0.5 * background.contentWidth) / background.contentWidth
         background.yScale = background.xScale
         background.x = display.contentCenterX
-        background.y = display.contentCenterY
+        background.y = display.contentCenterY - display.contentCenterX
         background:scale(0.4, 0.4)
         -- create menu buttons
         local x, y = -1.75, 0
