@@ -33,20 +33,22 @@ function scene:show( event )
             local height_from_bottom = 450
             local button_spacing = 1.7
             for buttonID = 1, 2 do
-                menu_buttons = widget.newButton ({
-                    defaultFile = 'images/buttons/button_' .. buttonID .. '.png',
-                    overFile = 'images/buttons/button_' .. buttonID .. '_pressed.png',
-                    width = button_W, height = button_H,
-                    x = x * spacing + 250,
-                    y = height_from_bottom + y * spacing,
-                    onRelease = function()
-                        if (buttonID == 1) then
-                            -- gotoScene 1
-                        elseif (buttonID == 2) then
-                            composer.gotoScene( "scenes.about", {effect = "crossFade", time = 100})
+                menu_buttons = widget.newButton (
+                    {
+                        defaultFile = 'images/buttons/button_' .. buttonID .. '.png',
+                        overFile = 'images/buttons/button_' .. buttonID .. '_pressed.png',
+                        width = button_W, height = button_H,
+                        x = x * spacing + 250,
+                        y = height_from_bottom + y * spacing,
+                        onRelease = function()
+                            if (buttonID == 1) then
+                                -- gotoScene 1
+                            elseif (buttonID == 2) then
+                                composer.gotoScene( "scenes.about", {effect = "crossFade", time = 100})
+                            end
                         end
-                    end
-                })
+                    }
+                )
                 menu_buttons:scale(0.8, 0.5)
                 sceneGroup:insert(menu_buttons)
                 sceneGroup:insert(background)

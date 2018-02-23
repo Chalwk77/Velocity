@@ -19,20 +19,19 @@ local function setUpDisplay(group)
     -- Help Scene background
     local background = display.newImageRect(group, "images/backgrounds/about_scene_background.png", display.contentWidth + 550, display.contentHeight + 1000)
     background.alpha = 0.5
-    local xPos = screenLeft + 10
-    local yPos = screenBottom - 10
     local back_button = widget.newButton (
         {
-            label = "Back",
-            id = "scenes.menu",
-            onRelease = switchScene
+            defaultFile = 'images/buttons/about_back_button.png',
+            overFile = 'images/buttons/about_back_button.png',
+
+            onRelease = function()
+                composer.gotoScene( "scenes.menu", {effect = "crossFade", time = 100})
+            end
         }
     )
-    back_button.anchorX = 0
-    back_button.anchorY = 1
-    back_button.x = xPos - 50
-    back_button.y = yPos
-    back_button:scale(0.7, 0.7)
+    back_button.x = 164
+    back_button.y = 54
+    back_button:scale(0.1, 0.1)
     group:insert(back_button)
     local aboutText = [[Halo PC|CE Server Communication Application for Android/iOS]]
     local paragraphs = {}
@@ -69,6 +68,8 @@ local function setUpDisplay(group)
     group:insert(helptext)
     local copyright = display.newText( group, "© 2018, Velocity, Jericho Crosby <jericho.crosby227@gmail.com>", 0, 0, native.systemFontBold, 8 )
     local spacing = 100
+    local xPos = screenLeft + 10
+    local yPos = screenBottom - 10
     copyright.x = xPos + 120
     copyright.y = yPos
     copyright:setFillColor( 255, 255, 255, 1 )
