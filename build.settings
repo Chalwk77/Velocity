@@ -13,6 +13,7 @@ settings =
 	--
 	android =
 	{
+    installLocation = 'auto',
 		usesPermissions =
 		{
 			"android.permission.INTERNET",
@@ -31,7 +32,10 @@ settings =
 			UILaunchStoryboardName = "LaunchScreen",
 		},
 	},
-
+	window = {
+			defaultMode = 'normal',
+			titleText = {default = 'Velocity'}
+	},
 	--
 	-- Plugins section
 	--

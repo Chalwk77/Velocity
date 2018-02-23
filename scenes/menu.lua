@@ -18,11 +18,11 @@ function scene:show( event )
         local function setUpDisplay(sceneGroup)
             -- draw menu background
             local background = display.newImage(sceneGroup, "images/backgrounds/menu_background.png")
-            local bg_height_from_top = 20
+            local height_from_top = 10
             background.xScale = (0.39 * background.contentWidth) / background.contentWidth
             background.yScale = background.xScale + 0.1
             background.x = display.contentCenterX
-            background.y = display.contentCenterY - display.contentCenterX - bg_height_from_top
+            background.y = display.contentCenterY - display.contentCenterX - height_from_top
             background:scale(0.45, 0.5)
             -- create menu buttons
             local x, y = -1.75, 0
@@ -41,7 +41,11 @@ function scene:show( event )
                         y = height_from_bottom + y * spacing,
                         onRelease = function()
                             if (buttonID == 1) then
-                                -- gotoScene
+                                -- to do:
+                                -- input field requesting an ip address and port
+                                local ip_address = {}
+                                local port = {}
+                                local DisplayInfo = system.openURL("https://www.gametracker.com/server_info/" .. ip_address .. ":" .. port)
                             elseif (buttonID == 2) then
                                 composer.gotoScene( "scenes.about", {effect = "crossFade", time = 100})
                             end
