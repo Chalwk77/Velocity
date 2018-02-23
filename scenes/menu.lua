@@ -1,7 +1,6 @@
 -----------------------------------------------------------------------------------------
 -- menu.lua
 -- (c) 2018, Velocity by Jericho Crosby <jericho.crosby227@gmail.com>
---
 -----------------------------------------------------------------------------------------
 local composer = require( 'composer' )
 local scene = composer.newScene()
@@ -42,7 +41,7 @@ function scene:show( event )
                         y = height_from_bottom + y * spacing,
                         onRelease = function()
                             if (buttonID == 1) then
-                                -- gotoScene 1
+                                -- gotoScene
                             elseif (buttonID == 2) then
                                 composer.gotoScene( "scenes.about", {effect = "crossFade", time = 100})
                             end

@@ -1,6 +1,11 @@
+-----------------------------------------------------------------------------------------
+-- about.lua
+-- (c) 2018, Velocity by Jericho Crosby <jericho.crosby227@gmail.com>
+-----------------------------------------------------------------------------------------
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
+local colors = require('modules.rgb_color_library')
 
 local screenLeft = display.screenOriginX
 local screenWidth = display.viewableContentWidth - screenLeft * 2
@@ -18,7 +23,8 @@ end
 local function setUpDisplay(group)
     -- Help Scene background
     local background = display.newImageRect(group, "images/backgrounds/about_scene_background.png", display.contentWidth + 550, display.contentHeight + 1000)
-    background.alpha = 0.5
+    background.alpha = 1
+    group:insert(background)
     local x, y = -1.75, 0
     local spacing = 100
     local height_from_bottom = 450
@@ -35,7 +41,19 @@ local function setUpDisplay(group)
     )
     back_button:scale(0.1, 0.1)
     group:insert(back_button)
-    local aboutText = [[Halo PC|CE Server Communication Application for Android/iOS]]
+    local aboutText = [[
+    Summary:
+
+    Halo PC|CE Server Communication Application for Android/iOS
+
+    * IN DEVELOPMENT
+
+
+
+    Developed by Jericho crosby
+    <jericho.crosby227@gmail.com>
+    Source Code: https://github.com/Chalwk77/Velocity
+    ]]
     local paragraphs = {}
     local paragraph
     local tmpString = aboutText
@@ -43,7 +61,7 @@ local function setUpDisplay(group)
     local options = {
         text = "",
         width = display.contentWidth,
-        fontSize = 10,
+        fontSize = 7,
         align = "left",
     }
     local yOffset = 10
@@ -62,7 +80,7 @@ local function setUpDisplay(group)
         paragraphs[#paragraphs].anchorY = 0
         paragraphs[#paragraphs].x = 10
         paragraphs[#paragraphs].y = yOffset
-        paragraphs[#paragraphs]:setFillColor( 255, 0, 0, 1 )
+        paragraphs[#paragraphs]:setFillColor(color_table.RGB("white"), 1)
         paragraphs[#paragraphs].alpha = 1
         helptext = paragraphs[#paragraphs]
         yOffset = yOffset + paragraphs[#paragraphs].height
@@ -74,7 +92,7 @@ local function setUpDisplay(group)
     local yPos = screenBottom - 10
     copyright.x = xPos + 120
     copyright.y = yPos
-    copyright:setFillColor( 255, 255, 255, 1 )
+    copyright:setFillColor( color_table.RGB("white"), 1)
     copyright.alpha = 1
 end
 
