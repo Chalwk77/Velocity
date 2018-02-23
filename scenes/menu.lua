@@ -18,12 +18,12 @@ function scene:show( event )
         local function setUpDisplay(sceneGroup)
             -- draw menu background
             local background = display.newImage(sceneGroup, "images/backgrounds/menu_background.png")
-            local height_from_top = 10
-            background.xScale = (0.39 * background.contentWidth) / background.contentWidth
+            local height_from_top = -50
+            background.xScale = (0.40 * background.contentWidth) / background.contentWidth
             background.yScale = background.xScale + 0.1
             background.x = display.contentCenterX
             background.y = display.contentCenterY - display.contentCenterX - height_from_top
-            background:scale(0.45, 0.5)
+            background:scale(0.50, 0.6)
             -- create menu buttons
             local x, y = -1.75, 0
             local spacing = 100
