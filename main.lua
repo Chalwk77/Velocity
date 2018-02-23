@@ -4,7 +4,6 @@
 --
 -----------------------------------------------------------------------------------------
 
--- Your code here
 local composer = require('composer')
 -- init menu scene
 composer.gotoScene( "scenes.menu" )
