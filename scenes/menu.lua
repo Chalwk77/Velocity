@@ -42,7 +42,7 @@ function scene:show( event )
                         onRelease = function()
                             if (buttonID == 1) then
                                 if (servers == nil) then
-                                    native.showAlert('No Servers', 'You do not have any servers bookmarked', {'ok'})
+                                    native.showAlert('Data Title', '<data>', {'ok'})
                                 end
                             elseif (buttonID == 2) then
                                 composer.gotoScene( "scenes.about", {effect = "crossFade", time = 100})
