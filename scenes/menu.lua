@@ -5,6 +5,7 @@
 local composer = require( 'composer' )
 local scene = composer.newScene()
 local widget = require( "widget" )
+
 require('scenes.debug')
 
 function scene:create( event )
@@ -18,12 +19,12 @@ function scene:show( event )
         local function setUpDisplay(sceneGroup)
             -- draw menu background
             local background = display.newImage(sceneGroup, "images/backgrounds/menu_background.png")
-            local height_from_top = -50
+            local height_from_top = -10
             background.xScale = (0.40 * background.contentWidth) / background.contentWidth
             background.yScale = background.xScale + 0.1
             background.x = display.contentCenterX
             background.y = display.contentCenterY - display.contentCenterX - height_from_top
-            background:scale(0.50, 0.6)
+            background:scale(0.45, 0.5)
             -- create menu buttons
             local x, y = -1.75, 0
             local spacing = 100
@@ -46,9 +47,7 @@ function scene:show( event )
                         y = height_from_bottom + y * spacing,
                         onRelease = function()
                             if (i == 1) then
-                                if (servers == nil) then
-                                    native.showAlert('Data Title', '<data>', {'ok'})
-                                end
+                                composer.gotoScene( "scenes.calander", {effect = "crossFade", time = 100})
                             elseif (i == 2) then
                                 composer.gotoScene( "scenes.about", {effect = "crossFade", time = 100})
                             end

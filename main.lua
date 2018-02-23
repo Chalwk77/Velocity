@@ -1,10 +1,6 @@
 -----------------------------------------------------------------------------------------
 -- main.lua
 -- (c) 2018, Velocity by Jericho Crosby <jericho.crosby227@gmail.com>
-
--- to do:
--- remove 'version update text' when transitioning between scenes
-
 -----------------------------------------------------------------------------------------
 local composer = require('composer')
 local button = require( "widget" )
