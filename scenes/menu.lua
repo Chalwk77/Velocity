@@ -41,11 +41,9 @@ function scene:show( event )
                         y = height_from_bottom + y * spacing,
                         onRelease = function()
                             if (buttonID == 1) then
-                                -- to do:
-                                -- input field requesting an ip address and port
-                                local ip_address = {}
-                                local port = {}
-                                local DisplayInfo = system.openURL("https://www.gametracker.com/server_info/" .. ip_address .. ":" .. port)
+                                if (servers == nil) then
+                                    native.showAlert('No Servers', 'You do not have any servers bookmarked', {'ok'})
+                                end
                             elseif (buttonID == 2) then
                                 composer.gotoScene( "scenes.about", {effect = "crossFade", time = 100})
                             end
@@ -81,3 +79,9 @@ scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 
 return scene
+
+--[[
+local ip_address = {}
+local port = {}
+local DisplayInfo = system.openURL("https://www.gametracker.com/server_info/" .. ip_address .. ":" .. port)
+]]
