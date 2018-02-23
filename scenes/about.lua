@@ -19,18 +19,20 @@ local function setUpDisplay(group)
     -- Help Scene background
     local background = display.newImageRect(group, "images/backgrounds/about_scene_background.png", display.contentWidth + 550, display.contentHeight + 1000)
     background.alpha = 0.5
+    local x, y = -1.75, 0
+    local spacing = 100
+    local height_from_bottom = 450
     local back_button = widget.newButton (
         {
             defaultFile = 'images/buttons/about_back_button.png',
             overFile = 'images/buttons/about_back_button.png',
-
+            x = x * spacing + 250,
+            y = height_from_bottom + y * spacing,
             onRelease = function()
                 composer.gotoScene( "scenes.menu", {effect = "crossFade", time = 100})
             end
         }
     )
-    back_button.x = 164
-    back_button.y = 54
     back_button:scale(0.1, 0.1)
     group:insert(back_button)
     local aboutText = [[Halo PC|CE Server Communication Application for Android/iOS]]
