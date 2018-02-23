@@ -31,7 +31,7 @@ local function setUpDisplay(group)
     local back_button = widget.newButton (
         {
             defaultFile = 'images/buttons/about_back_button.png',
-            overFile = 'images/buttons/about_back_button.png',
+            overFile = 'images/buttons/about_back_button_pressed.png',
             x = x * spacing + 250,
             y = height_from_bottom + y * spacing,
             onRelease = function()
@@ -44,11 +44,7 @@ local function setUpDisplay(group)
     local aboutText = [[
     Summary:
 
-    Halo PC|CE Server Communication Application for Android/iOS
-
     * IN DEVELOPMENT
-
-
 
     Developed by Jericho crosby
     <jericho.crosby227@gmail.com>
@@ -105,7 +101,7 @@ function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "will" ) then
-        -- scene begin
+        if application_version ~= nil then application_version.isVisible = false end
     elseif ( phase == "did" ) then
         -- scene end
     end

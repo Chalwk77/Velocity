@@ -27,24 +27,29 @@ function scene:show( event )
             -- create menu buttons
             local x, y = -1.75, 0
             local spacing = 100
-            local button_W = 164
-            local button_H = 54
             local height_from_bottom = 450
             local button_spacing = 1.7
-            for buttonID = 1, 2 do
+            for i = 1, 2 do
+                if (i == 1) then
+                    button_W = 120
+                    button_H = 120
+                else
+                    button_W = 164
+                    button_H = 54
+                end
                 menu_buttons = widget.newButton (
                     {
-                        defaultFile = 'images/buttons/button_' .. buttonID .. '.png',
-                        overFile = 'images/buttons/button_' .. buttonID .. '_pressed.png',
+                        defaultFile = 'images/buttons/button_' .. i .. '.png',
+                        overFile = 'images/buttons/button_' .. i .. '_pressed.png',
                         width = button_W, height = button_H,
                         x = x * spacing + 250,
                         y = height_from_bottom + y * spacing,
                         onRelease = function()
-                            if (buttonID == 1) then
+                            if (i == 1) then
                                 if (servers == nil) then
                                     native.showAlert('Data Title', '<data>', {'ok'})
                                 end
-                            elseif (buttonID == 2) then
+                            elseif (i == 2) then
                                 composer.gotoScene( "scenes.about", {effect = "crossFade", time = 100})
                             end
                         end
@@ -60,6 +65,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         -- scene end
     end
+    if application_version.isVisible == false then application_version.isVisible = true end
 end
 
 function scene:hide( event )
