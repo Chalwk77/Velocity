@@ -59,7 +59,7 @@ function scene:create( event )
             group = parentGroup,
             callBack = buttonCallback,
             x = x,
-            y = y + 200,
+            y = y + 150,
             w = w,
             h = h,
             align = "center",
