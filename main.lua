@@ -28,8 +28,8 @@ local function backKeyPressed( event )
 end
 
 -- local exitButton = button.newButton({
---     defaultFile = 'images/buttons/exit.png',
---     overFile = 'images/buttons/exit-over.png',
+--     defaultFile = 'images/buttons/exit_button.png',
+--     overFile = 'images/buttons/exit_button_pressed.png',
 --     onRelease = function()
 --         native.showAlert('Confirm Exit', 'Are you sure you want to exit?', {'Yes', 'No'},
 --             function(event)

@@ -30,8 +30,8 @@ local function setUpDisplay(group)
     local height_from_bottom = 450
     local back_button = widget.newButton (
         {
-            defaultFile = 'images/buttons/about_back_button.png',
-            overFile = 'images/buttons/about_back_button_pressed.png',
+            defaultFile = 'images/buttons/back_button.png',
+            overFile = 'images/buttons/back_button_pressed.png',
             x = x * spacing + 250,
             y = height_from_bottom + y * spacing,
             onRelease = function()
