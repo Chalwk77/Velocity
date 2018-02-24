@@ -13,6 +13,22 @@ function scene:create( event )
     -- stuff that only needs to be created ONCE goes here.
 end
 
+local function switchScene(event)
+    local scene_id = ""
+    if event.target.id == 1 then
+        scene_id = "scenes.about"
+    elseif event.target.id == 2 then
+        scene_id = "scenes.about"
+    elseif event.target.id == 3 then
+        scene_id = "scenes.about"
+    elseif event.target.id == 4 then
+        scene_id = "scenes.about"
+    elseif event.target.id == 5 then
+        scene_id = "scenes.about"
+    end
+    composer.gotoScene( scene_id, {effect = "crossFade", time = 100} )
+end
+
 function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
@@ -49,44 +65,30 @@ function scene:show( event )
             top_frame.alpha = shade
             top_frame:setStrokeColor(color_table.RGB("blue"))
             sceneGroup:insert(top_frame)
-
-            -- create menu buttons
-            local x, y = -1.75, 0
-            local spacing = 100
-            local height_from_bottom = 450
-            local button_spacing = 1.07
-            for i = 1, 3 do
-                if (i == 1) then
-                    button_W = 120
-                    button_H = 120
-                elseif (i == 2) then
-                    button_W = 164
-                    button_H = 54
-                elseif (i == 3) then
-                    button_W = 120
-                    button_H = 120
+            local x, y = -2, 0
+            local spacing = 65
+            local height = 300
+            for i = 1, 5 do
+                local buttons = widget.newButton ({
+                    id = i,
+                    labelColor = {default = {color_table.RGB("black")}, over = {color_table.RGB("white")}},
+                    font = native.systemFontBold,
+                    fontSize = 10,
+                    labelYOffset = -5,
+                    defaultFile = 'images/buttons/menu_button.png',
+                    overFile = 'images/buttons/menu_button_pressed.png',
+                    width = 64, height = 64,
+                    x = x * spacing + display.contentCenterX,
+                    y = display.contentCenterX + y * spacing + height,
+                    onRelease = switchScene
+                })
+                buttons:scale(0.8, 0.9)
+                sceneGroup:insert(buttons)
+                x = x + 1
+                if x == 3 then
+                    x = -2
+                    y = y + 1
                 end
-                menu_buttons = widget.newButton (
-                    {
-                        defaultFile = 'images/buttons/button_' .. i .. '.png',
-                        overFile = 'images/buttons/button_' .. i .. '_pressed.png',
-                        width = button_W, height = button_H,
-                        x = x * spacing + 230,
-                        y = height_from_bottom + y * spacing,
-                        onRelease = function()
-                            if (i == 1) then
-                                composer.gotoScene( "scenes.calander", {effect = "crossFade", time = 100})
-                            elseif (i == 2) then
-                                composer.gotoScene( "scenes.about", {effect = "crossFade", time = 100})
-                            elseif (i == 3) then
-                                composer.gotoScene( "scenes.notes", {effect = "crossFade", time = 100})
-                            end
-                        end
-                    }
-                )
-                menu_buttons:scale(0.7, 0.5)
-                sceneGroup:insert(menu_buttons)
-                x = x + button_spacing
             end
         end
         setUpDisplay(sceneGroup)
