@@ -36,11 +36,11 @@ function scene:show( event )
         local function setUpDisplay(sceneGroup)
             -- draw menu background
             local background = display.newImage(sceneGroup, "images/backgrounds/menu_background.png")
-            background.x = display.contentCenterX
+            background.x = display.contentCenterX + - 3
             background.y = display.contentCenterY
-            background.width = display.contentWidth - display.screenOriginX - 25
+            background.width = display.contentWidth - display.screenOriginX - 15
             background.height = display.contentHeight - display.screenOriginY + 25
-            background:scale(1.5, 1)
+            background:scale(1.50, 1)
             sceneGroup:insert(background)
 
             -- create top|bottom frames
@@ -68,13 +68,14 @@ function scene:show( event )
             local x, y = -2, 0
             local spacing = 65
             local height = 300
-            for i = 1, 5 do
+            for buttonID = 1, 5 do
                 local buttons = widget.newButton ({
-                    id = i,
-                    labelColor = {default = {color_table.RGB("black")}, over = {color_table.RGB("white")}},
+                    label = buttonID,
+                    id = buttonID,
+                    labelColor = {default = {color_table.RGB("black")}, over = {color_table.RGB("green")}},
                     font = native.systemFontBold,
                     fontSize = 10,
-                    labelYOffset = -5,
+                    labelYOffset = 0,
                     defaultFile = 'images/buttons/menu_button.png',
                     overFile = 'images/buttons/menu_button_pressed.png',
                     width = 64, height = 64,
