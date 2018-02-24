@@ -27,25 +27,25 @@ local function backKeyPressed( event )
     return false
 end
 
-local exitButton = button.newButton({
-    defaultFile = 'images/buttons/exit.png',
-    overFile = 'images/buttons/exit-over.png',
-    onRelease = function()
-        native.showAlert('Confirm Exit', 'Are you sure you want to exit?', {'Yes', 'No'},
-            function(event)
-                if event.action == 'clicked' and event.index == 1 then
-                    native.requestExit()
-                end
-            end
-        )
-    end
-})
-
-exitButton.x = display.contentCenterX + 135
-exitButton.y = display.contentCenterY - display.contentCenterX - 80
-exitButton.width = 64
-exitButton.height = 64
-exitButton:scale(0.6, 0.6)
+-- local exitButton = button.newButton({
+--     defaultFile = 'images/buttons/exit.png',
+--     overFile = 'images/buttons/exit-over.png',
+--     onRelease = function()
+--         native.showAlert('Confirm Exit', 'Are you sure you want to exit?', {'Yes', 'No'},
+--             function(event)
+--                 if event.action == 'clicked' and event.index == 1 then
+--                     native.requestExit()
+--                 end
+--             end
+--         )
+--     end
+-- })
+--
+-- exitButton.x = display.contentCenterX + 135
+-- exitButton.y = display.contentCenterY - display.contentCenterX - 90
+-- exitButton.width = 64
+-- exitButton.height = 64
+-- exitButton:scale(0.6, 0.6)
 
 function CheckForUpdates()
     local latest_version_url = "https://pastebin.com/raw/DG23Z1w3"
