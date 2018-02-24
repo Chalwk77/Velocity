@@ -64,8 +64,7 @@ function scene:show( event )
             if scene.calendarExample > #calendarTable then
                 composer.gotoScene( "scenes.menu" )
             else
-                local error = uiLib.displayCalendarDialog( calendarTable[scene.calendarExample] )
-                print( error )
+                uiLib.displayCalendarDialog( calendarTable[scene.calendarExample] )
             end
         end
 

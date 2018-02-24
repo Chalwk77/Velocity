@@ -51,6 +51,7 @@ function scene:create( event )
             elseif button_id == "EXIT" then
                 showDialog()
             else
+                application_version.isVisible = false
                 composer.gotoScene( buttonNameTable[button_id] )
             end
         end
@@ -150,6 +151,7 @@ function scene:create( event )
         }
         local sidebar = uiLib.displaySlidingDialog(slidingMenuTable[1])
         display.remove(group)
+        application_version.isVisible = false
         Runtime:addEventListener( "mouse", onMouseEvent )
     end
 end
@@ -158,6 +160,7 @@ function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "will" ) then
+        if application_version ~= nil and application_version.isVisible == false then application_version.isVisible = true end
         if logo ~= nil and logo.isVisible == false then
             logo.isVisible = true
         end
@@ -167,6 +170,7 @@ end
 onMouseEvent = function(event)
     if event.isPrimaryButtonDown then
         scene:create()
+        if application_version ~= nil and application_version.isVisible == false then application_version.isVisible = true end
         Runtime:removeEventListener( "mouse", onMouseEvent )
     end
 end
@@ -177,7 +181,7 @@ function showDialog( event )
     local yScreen = display.contentCenterY - display.actualContentHeight / 2
     local hScreen = display.actualContentHeight
     local dialog_group = display.newGroup()
-    local background = display.newImage( dialog_group, "assets/bkImg.jpg" )
+    local background = display.newImage( dialog_group, "images/backgrounds/background2.jpg" )
     background.x = display.contentWidth * 0.5
     background.y = display.contentHeight * 0.5
     local scale = math.max( wScreen / background.width, hScreen / background.height )
