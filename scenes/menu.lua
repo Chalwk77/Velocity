@@ -30,7 +30,7 @@ function scene:show( event )
             local spacing = 100
             local height_from_bottom = 450
             local button_spacing = 1.7
-            for i = 1, 2 do
+            for i = 1, 3 do
                 if (i == 1) then
                     button_W = 120
                     button_H = 120
@@ -50,6 +50,8 @@ function scene:show( event )
                                 composer.gotoScene( "scenes.calander", {effect = "crossFade", time = 100})
                             elseif (i == 2) then
                                 composer.gotoScene( "scenes.about", {effect = "crossFade", time = 100})
+                            elseif (i == 3) then
+                                composer.gotoScene( "scenes.notes", {effect = "crossFade", time = 100})
                             end
                         end
                     }
@@ -84,9 +86,3 @@ scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 
 return scene
-
---[[
-local ip_address = {}
-local port = {}
-local DisplayInfo = system.openURL("https://www.gametracker.com/server_info/" .. ip_address .. ":" .. port)
-]]
