@@ -151,15 +151,14 @@ function scene:create( event )
             },
         }
         local sidebar = uiLib.displaySlidingDialog(slidingMenuTable[1])
-        screen_contents.isVisible = false
-        application_version.isVisible = false
-
-        local platformName = system.getInfo("platformName")
-        if platformName == "Win" then
-            Runtime:addEventListener( "mouse", onMouseEvent )
-        elseif (platformName == "Android") or (platformName == "WinPhone") then
-            Runtime:addEventListener( "touch", onTouch )
-        end
+        -- screen_contents.isVisible = false
+        -- application_version.isVisible = false
+        -- local platformName = system.getInfo("platformName")
+        -- if platformName == "Win" then
+        --     Runtime:addEventListener( "mouse", onMouseEvent )
+        -- elseif (platformName == "Android") or (platformName == "WinPhone") then
+        --     Runtime:addEventListener( "touch", onTouch )
+        -- end
     end
 end
 
