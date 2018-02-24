@@ -90,6 +90,8 @@ function scene:show( event )
                     x = -2
                     y = y + 1
                 end
+                menu_buttonX = x
+                menu_buttonY = y
             end
         end
         setUpDisplay(sceneGroup)

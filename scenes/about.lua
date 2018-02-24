@@ -25,26 +25,28 @@ local function setUpDisplay(group)
     local background = display.newImageRect(group, "images/backgrounds/about_scene_background.png", display.contentWidth + 550, display.contentHeight + 1000)
     background.alpha = 1
     group:insert(background)
-    local x, y = -1.75, 0
-    local spacing = 100
-    local height_from_bottom = 450
+    local x, y = -2, 0
+    local spacing = 65
+    local height = 300
     local back_button = widget.newButton (
         {
             defaultFile = 'images/buttons/back_button.png',
             overFile = 'images/buttons/back_button_pressed.png',
-            x = x * spacing + 250,
-            y = height_from_bottom + y * spacing,
+            x = x * spacing + display.contentCenterX,
+            y = display.contentCenterX + y * spacing + height,
             onRelease = function()
                 composer.gotoScene( "scenes.menu", {effect = "crossFade", time = 100})
             end
         }
     )
-    back_button:scale(0.1, 0.1)
+    back_button:scale(0.3, 0.3)
     group:insert(back_button)
     local aboutText = [[
     Summary:
 
-    * IN DEVELOPMENT
+    * Create and view custom events in our in-app custom calander.
+    * Create and personalize notes and share them with each other.
+    * Notifications | Private Messaging | and more...
 
     Developed by Jericho crosby
     <jericho.crosby227@gmail.com>
@@ -79,10 +81,10 @@ local function setUpDisplay(group)
         paragraphs[#paragraphs].y = yOffset
         paragraphs[#paragraphs]:setFillColor(color_table.RGB("white"), 1)
         paragraphs[#paragraphs].alpha = 1
-        helptext = paragraphs[#paragraphs]
+        info = paragraphs[#paragraphs]
         yOffset = yOffset + paragraphs[#paragraphs].height
     until tmpString == nil or string.len( tmpString ) == 0
-    group:insert(helptext)
+    group:insert(info)
     local copyright = display.newText( group, "© 2018, Velocity, Jericho Crosby <jericho.crosby227@gmail.com>", 0, 0, native.systemFontBold, 8 )
     local spacing = 100
     local xPos = screenLeft + 10

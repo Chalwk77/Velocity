@@ -3,15 +3,15 @@
 -- https://docs.coronalabs.com/guide/basics/configSettings
 --
 
-application =
+application = 
 {
-	content =
+	content = 
 	{
 		width = 320,
-		height = 480, 
+		height = 480,
 		scale = "letterbox",
 		fps = 60,
-		
+
 		--[[
 		imageSuffix =
 		{
