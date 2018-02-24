@@ -8,6 +8,7 @@ local scene = composer.newScene()
 local logo
 local background
 local onMouseEvent
+local onTouch
 function scene:create( event )
     scene.menu = 0
     local group = display.newGroup()
@@ -88,6 +89,7 @@ function scene:create( event )
                 selectedColor = { 0.9, 0.9, 1, 1 },
             },
         }
+        screen_contents = parentGroup
         uiLib.newUIButton( options )
     end
 
@@ -149,26 +151,33 @@ function scene:create( event )
             },
         }
         local sidebar = uiLib.displaySlidingDialog(slidingMenuTable[1])
-        Runtime:addEventListener( "mouse", onMouseEvent )
-        display.remove(group)
+        screen_contents.isVisible = false
         application_version.isVisible = false
-    end
-end
 
-function scene:show( event )
-    local sceneGroup = self.view
-    local phase = event.phase
-    if ( phase == "will" ) then
-        if application_version ~= nil and application_version.isVisible == false then application_version.isVisible = true end
-        if logo ~= nil and logo.isVisible == false then logo.isVisible = true end
+        local platformName = system.getInfo("platformName")
+        if platformName == "Win" then
+            Runtime:addEventListener( "mouse", onMouseEvent )
+        elseif (platformName == "Android") or (platformName == "WinPhone") then
+            Runtime:addEventListener( "touch", onTouch )
+        end
     end
 end
 
 onMouseEvent = function(event)
-    if event.isPrimaryButtonDown then
-        scene:create()
+    if (event.isPrimaryButtonDown) then
+        screen_contents.isVisible = true
         if application_version ~= nil and application_version.isVisible == false then application_version.isVisible = true end
         Runtime:removeEventListener( "mouse", onMouseEvent )
+    end
+end
+
+onTouch = function( event )
+    if (event.phase == "began") then
+        screen_contents.isVisible = true
+        if application_version ~= nil and application_version.isVisible == false then
+            application_version.isVisible = true
+            Runtime:removeEventListener( "mouse", onTouch )
+        end
     end
 end
 
@@ -202,6 +211,15 @@ function showDialog( event )
     options.wScreen = wScreen
     options.hScreen = hScreen
     uiLib.displayPopupDialog( options )
+end
+
+function scene:show( event )
+    local sceneGroup = self.view
+    local phase = event.phase
+    if ( phase == "will" ) then
+        if application_version ~= nil and application_version.isVisible == false then application_version.isVisible = true end
+        if logo ~= nil and logo.isVisible == false then logo.isVisible = true end
+    end
 end
 
 -- -----------------------------------------------------------------------------------
