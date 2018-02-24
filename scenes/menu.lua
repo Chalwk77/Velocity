@@ -161,9 +161,7 @@ function scene:show( event )
     local phase = event.phase
     if ( phase == "will" ) then
         if application_version ~= nil and application_version.isVisible == false then application_version.isVisible = true end
-        if logo ~= nil and logo.isVisible == false then
-            logo.isVisible = true
-        end
+        if logo ~= nil and logo.isVisible == false then logo.isVisible = true end
     end
 end
 
