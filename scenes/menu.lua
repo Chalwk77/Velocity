@@ -10,15 +10,8 @@ local background
 local onMouseEvent
 function scene:create( event )
     scene.menu = 0
-
-    local xScreen = display.contentCenterX - display.actualContentWidth / 2
-    local wScreen = display.actualContentWidth
-    local yScreen = display.contentCenterY - display.actualContentHeight / 2
-    local hScreen = display.actualContentHeight
-
     local group = display.newGroup()
     self.view:insert( group )
-
     local xScreen = display.contentCenterX - display.actualContentWidth / 2
     local wScreen = display.actualContentWidth
     local yScreen = display.contentCenterY - display.actualContentHeight / 2
@@ -107,6 +100,7 @@ function scene:create( event )
         createUIButton( group, key, xButton, yButton, wButton, hButton )
         yButton = yButton + hButton + 10
     end
+
     function scene:showSlidingMenu()
         local function callBack( itemId )
             if itemId ~= nil then
@@ -120,12 +114,12 @@ function scene:create( event )
                 wDialog = 150,
                 bkGradient = {
                     type = "gradient",
-                    color1 = { 23 / 255, 172 / 255, 254 / 255, 0.2 },
-                    color2 = { 102 / 255, 244 / 255, 134 / 255 },
+                    color1 = { 100 / 50, 20 / 255, 10 / 255, 0.1 },
+                    color2 = { 100 / 50, 245 / 100, 135 / 255, 0.5},
                     direction = "down",
                 },
                 buttonHandler = callBack,
-                borderSize = 4,
+                borderSize = 7,
 
                 itemListTextMarginPadding = 44,
                 itemListIconMarginPadding = 10,
@@ -134,12 +128,17 @@ function scene:create( event )
                 itemListFont = native.systemFont,
                 itemListFontSize = 12,
 
-                itemList = { { iconFilename = "images/sidebar_logo.png", iconWidth = 96, iconHeight = 96, name = "USERNAME | ERROR", height = 142, justify = "center" },
-                    { separator = true, height = 1, color = {1, 1, 1, 0.5}, width = 120, justify = "center" },
+                itemList = {
+                    { iconFilename = "images/sidebar_logo.png", iconWidth = 96, iconHeight = 96, name = "USERNAME | ERROR", height = 142, justify = "center" },
+                    { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
                     { iconFilename = "images/messages.png", iconWidth = 24, iconHeight = 24, name = "Messages", height = 50, id = "scenes.messages"},
+                    { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
                     { iconFilename = "images/settings.png", iconWidth = 24, iconHeight = 24, name = "Settings", height = 50, id = "scenes.settings"},
+                    { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
                     { iconFilename = "images/notes.png", iconWidth = 24, iconHeight = 24, name = "Notes", height = 50, id = "scenes.notes"},
+                    { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
                     { iconFilename = "images/jobs.png", iconWidth = 24, iconHeight = 24, name = "Jobs", height = 50, id = "scenes.jobs"},
+                    { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
                     { iconFilename = "images/help.png", iconWidth = 24, iconHeight = 24, name = "Help", height = 50, id = "scenes.help"},
 
                 },
@@ -150,9 +149,9 @@ function scene:create( event )
             },
         }
         local sidebar = uiLib.displaySlidingDialog(slidingMenuTable[1])
+        Runtime:addEventListener( "mouse", onMouseEvent )
         display.remove(group)
         application_version.isVisible = false
-        Runtime:addEventListener( "mouse", onMouseEvent )
     end
 end
 

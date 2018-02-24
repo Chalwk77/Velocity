@@ -1,5 +1,4 @@
 local composer = require( "composer" )
-composer.gotoScene( "scenes.menu" )
 local http = require "socket.http"
 local ltn12 = require("ltn12")
 local build_version = system.getInfo( "appVersionString" )
@@ -49,3 +48,5 @@ function CheckForUpdates()
 end
 -- init check for updates
 CheckForUpdates()
+
+composer.gotoScene( "scenes.menu" )
