@@ -93,7 +93,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         -- scene end
     end
-    if application_version.isVisible == false then application_version.isVisible = true end
+    if application_version ~= nil then if application_version.isVisible == true then application_version.isVisible = false end end
 end
 
 function scene:hide( event )

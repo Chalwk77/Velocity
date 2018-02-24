@@ -57,7 +57,8 @@ local function setUpDisplay(group)
     local options = {
         text = "",
         width = display.contentWidth,
-        fontSize = 7,
+        fontSize = 8,
+        font = native.systemFontBold,
         align = "left",
     }
     local yOffset = 10
