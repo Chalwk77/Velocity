@@ -12,7 +12,7 @@
 	if(isset($_GET)) {
 	    $userid = base64_decode($_GET["userid"]);
 	    $password = base64_decode($_GET["password"]);
-	    $query = 'SELECT * FROM players WHERE userid="' . mysql_real_escape_string($userid) . '"';
+	    $query = 'SELECT * FROM users WHERE userid="' . mysql_real_escape_string($userid) . '"';
 	    $dbresult = mysql_query($query, $link);
 	    if (!$dbresult) {
 	        $result = array();
@@ -23,15 +23,15 @@
 	        exit;
 	    }
 		// DEBUG
-	    $player = mysql_fetch_array($dbresult, MYSQL_ASSOC);
-	    if (strcmp($player["password"], md5($password)) == 0) {
+	    $user = mysql_fetch_array($dbresult, MYSQL_ASSOC);
+	    if (strcmp($user["password"], md5($password)) == 0) {
 	        $result = array();
 	        $result["result"] = 200;
 	        $result["message"] = "Success";
-	        $result["userid"] = $player["userid"];
-	        $result["firstname"] = $player["firstname"];
-	        $result["lastname"] = $player["lastname"];
-	        $query = sprintf("UPDATE players SET lastlogin=NOW() WHERE id=%s;", $player["id"]);
+	        $result["userid"] = $user["userid"];
+	        $result["firstname"] = $user["firstname"];
+	        $result["lastname"] = $user["lastname"];
+	        $query = sprintf("UPDATE users SET lastlogin=NOW() WHERE id=%s;", $user["id"]);
 	        $uresult = mysql_query($query, $link);
 	        if ($uresult) {
 

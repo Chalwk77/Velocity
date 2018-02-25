@@ -40,7 +40,7 @@ function showDialog(title, string, font_size, bool)
     else
         options.buttonHandler = callBack
     end
-    options.buttonName = { "YES", "NO"}
+    options.buttonName = { "NO", "YES"}
     options.xScreen = xScreen
     options.yScreen = yScreen
     options.wScreen = wScreen

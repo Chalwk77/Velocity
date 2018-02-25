@@ -99,7 +99,6 @@ function scene:create( event )
     frmPassword:addEventListener("userInput", frmPassword)
 
     local function loginCallback(event)
-
         -----------temporary--------------------------------------
         local function showMenu()
             composer.gotoScene("scenes.menu")
@@ -113,8 +112,6 @@ function scene:create( event )
         labelReturnStatus:setTextColor(0, 255, 0)
         timer.performWithDelay(1000 * 3, showMenu)
         -----------temporary--------------------------------------
-
-
         if ( event.isError ) then
             print( "Network error!");
         else
@@ -171,15 +168,20 @@ function scene:create( event )
     function handleInput()
         local userid = frmUsername.text
         local password = frmPassword.text
-        if (userid == '' or password == '') then
-            labelReturnStatus:setTextColor(255, 0, 0)
-            labelReturnStatus.text = 'A username or password is required!'
-            return
+        if (userid == '' and password == '') then
+            labelReturnStatus.text = 'A username and password is required!'
+        elseif (userid == '' and password ~= '') then
+            labelReturnStatus.text = 'A username is required!'
+        elseif (userid ~= '' and password == '') then
+            labelReturnStatus.text = 'A password is required!'
         end
-        local URL = "http://external.com/json.php?userid=" .. mime.b64(userid) .. "&password=" .. mime.b64(password);
-        network.request( URL, "GET", loginCallback )
-        print("sending network request...")
+        labelReturnStatus:setTextColor(255, 0, 0)
+        return
     end
+    local URL = "http://external.com/json.php?userid=" .. mime.b64(userid) .. "&password=" .. mime.b64(password);
+    network.request( URL, "GET", loginCallback )
+    print("sending network request...")
 end
+
 scene:addEventListener( "create", scene )
 return scene
