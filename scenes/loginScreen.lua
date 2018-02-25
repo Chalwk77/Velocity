@@ -116,7 +116,7 @@ function btnOnPressHandler(event)
         labelReturnStatus.text = 'A username or password is required!'
         return
     end
-    local URL = "http://opensourcemarketer.com/json.php?userid=" .. mime.b64(userid) .. "&password=" .. mime.b64(password);
+    local URL = "http://external.com/json.php?userid=" .. mime.b64(userid) .. "&password=" .. mime.b64(password);
     network.request( URL, "GET", loginCallback )
 end
 
