@@ -9,6 +9,10 @@ local logo
 local background
 local onMouseEvent
 local onTouch
+local sidebar_group
+local logo_line
+require('scenes.debug')
+
 function scene:create( event )
     scene.menu = 0
     local group = display.newGroup()
@@ -90,7 +94,7 @@ function scene:create( event )
             },
         }
         screen_contents = parentGroup
-        uiLib.newUIButton( options )
+        local buttons = uiLib.newUIButton( options )
     end
 
     local height_from_bottom = 150
@@ -104,6 +108,8 @@ function scene:create( event )
     end
 
     function scene:showSlidingMenu()
+        sidebar_group = display.newGroup()
+        self.view:insert( sidebar_group )
         local function callBack( itemId )
             if itemId ~= nil then
                 logo.isVisible = false
@@ -114,6 +120,7 @@ function scene:create( event )
             {
                 appearsFrom = "left",
                 wDialog = 150,
+                parent = sidebar_group,
                 bkGradient = {
                     type = "gradient",
                     color1 = { 100 / 50, 20 / 255, 10 / 255, 0.1 },
@@ -151,33 +158,30 @@ function scene:create( event )
             },
         }
         local sidebar = uiLib.displaySlidingDialog(slidingMenuTable[1])
-        -- screen_contents.isVisible = false
-        -- application_version.isVisible = false
-        -- local platformName = system.getInfo("platformName")
-        -- if platformName == "Win" then
-        --     Runtime:addEventListener( "mouse", onMouseEvent )
-        -- elseif (platformName == "Android") or (platformName == "WinPhone") then
-        --     Runtime:addEventListener( "touch", onTouch )
-        -- end
+        local fade = transition.to(logo, { time = 300, alpha = 0.1})
+
+        local logo_line_fade = transition.to(logo_line, { time = 300, alpha = 0})
+
+        local platformName = system.getInfo("platformName")
+        if platformName == "Win" then
+            Runtime:addEventListener( "mouse", onMouseEvent )
+        elseif (platformName == "Android") or (platformName == "WinPhone") then
+            Runtime:addEventListener( "touch", onTouch )
+        end
     end
 end
 
 onMouseEvent = function(event)
-    if (event.isPrimaryButtonDown) then
-        screen_contents.isVisible = true
-        if application_version ~= nil and application_version.isVisible == false then application_version.isVisible = true end
+    if event.isPrimaryButtonDown then
+        local fade = transition.to(logo, { time = 300, alpha = 1})
+        local fade2 = transition.to(sidebar_group, { time = 350, alpha = 0})
         Runtime:removeEventListener( "mouse", onMouseEvent )
     end
 end
 
 onTouch = function( event )
-    if (event.phase == "began") then
-        screen_contents.isVisible = true
-        if application_version ~= nil and application_version.isVisible == false then
-            application_version.isVisible = true
-            Runtime:removeEventListener( "mouse", onTouch )
-        end
-    end
+    local fade = transition.to(logo, { time = 300, alpha = 1})
+    Runtime:removeEventListener( "touch", onTouch )
 end
 
 function showDialog( event )
@@ -201,6 +205,9 @@ function showDialog( event )
             background.isVisible = false
         end
     end
+    options.alpha = 1
+    options.titleFontSize = 22
+    options.titleColor = {0.9, 0.1, 0.1, options.alpha}
     options.titleString = "Confirm Exit"
     options.textString = "Are you sure you want to exit?"
     options.buttonHandler = callBack
@@ -219,6 +226,16 @@ function scene:show( event )
         if application_version ~= nil and application_version.isVisible == false then application_version.isVisible = true end
         if logo ~= nil and logo.isVisible == false then logo.isVisible = true end
     end
+    local bottomY = display.contentHeight - display.screenOriginY
+    local leftX = display.screenOriginX
+    local rightX = display.contentWidth - display.screenOriginX
+    local screenW = rightX - leftX
+    logo_line = display.newLine(leftX + screenW + 35, bottomY, rightX - screenW + 35, bottomY)
+    logo_line.x = screenW
+    logo_line.y = logo.y + 55
+    logo_line.strokeWidth = 1
+    logo_line:setStrokeColor(0.3, 0.1, 0.2, 1)
+    logo_line.alpha = 1
 end
 
 -- -----------------------------------------------------------------------------------

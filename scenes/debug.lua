@@ -42,11 +42,12 @@ showFPS = function()
 end
 
 
-debug = function(debug_text)
+debug = function(debug_text, height)
     if debug_text ~= nil then
+        if height ~= nil then height = height else height = 80 end
         debug_message = display.newText(tostring(debug_text), 0, 0, native.systemFontBold, 15 )
         debug_message.x = display.contentCenterX
-        debug_message.y = display.contentCenterY - 80
+        debug_message.y = display.contentCenterY - height
         debug_message:setFillColor(255, 0, 0, 1)
         debug_message.alpha = 1
         print("Debug: " .. tostring(debug_text))
