@@ -1,4 +1,5 @@
 local uiLib = require "plugin.braintonik-dialog"
+
 function showDialog(title, string, font_size, bool)
     local xScreen = display.contentCenterX - display.actualContentWidth / 2
     local wScreen = display.actualContentWidth

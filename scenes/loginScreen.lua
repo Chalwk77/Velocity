@@ -18,7 +18,7 @@ function scene:create( event )
     local hScreen = display.actualContentHeight
 
     -- create menu background
-    background = display.newImage("images/backgrounds/background1.png" )
+    background = display.newImage("images/backgrounds/background3.png" )
     background.x = display.contentWidth * 0.5
     background.y = display.contentHeight * 0.5
     local scale = math.max( wScreen / background.width, hScreen / background.height )
@@ -59,7 +59,7 @@ function scene:create( event )
     frmUsername.isEditable = true
     frmUsername.align = "left"
     frmUsername.x = _W * 0.5
-    frmUsername.y = 135
+    frmUsername.y = 137
     frmUsername.text = ''
     loginScreen:insert(frmUsername)
     group:insert(frmUsername)
@@ -82,7 +82,7 @@ function scene:create( event )
     frmPassword.isSecure = true
     frmPassword.align = "left"
     frmPassword.x = _W * 0.5
-    frmPassword.y = 200
+    frmPassword.y = 202
     frmPassword.text = ''
     loginScreen:insert(frmPassword)
     group:insert(frmPassword)
@@ -183,5 +183,17 @@ function scene:create( event )
     print("sending network request...")
 end
 
+function scene:show(event)
+    local sceneGroup = self.view
+    local phase = event.phase
+    if (phase == "did") then
+        if (frmPassword.isVisible ~= nil and frmPassword.isVisible == false) and (frmUsername.isVisible ~= nil and frmUsername.isVisible == false) then
+            frmPassword.isVisible = true
+            frmUsername.isVisible = true
+        end
+    end
+end
+
 scene:addEventListener( "create", scene )
+scene:addEventListener( "show", scene )
 return scene
