@@ -5,7 +5,6 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
-local colors = require('modules.rgb_color_library')
 
 local screenLeft = display.screenOriginX
 local screenWidth = display.viewableContentWidth - screenLeft * 2
@@ -103,9 +102,7 @@ function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "will" ) then
-        if application_version ~= nil then
-            application_version.isVisible = false
-        end
+
     end
 end
 

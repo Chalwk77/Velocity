@@ -6,6 +6,10 @@ local composer = require( "composer" )
 local uiLib = require "plugin.braintonik-dialog"
 local scene = composer.newScene()
 
+require('modules.show_dialog')
+require('scenes.debug')
+require('modules.rgb_color_library')
+
 function scene:show( event )
     if ( event.phase == "will" ) then
 

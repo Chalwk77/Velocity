@@ -4,16 +4,8 @@ local ltn12 = require("ltn12")
 local build_version = system.getInfo( "appVersionString" )
 
 require('modules.show_dialog')
-
--- used to show|hide objects
-ui_objects_group = display.newGroup()
-hideUiObjects = function( bool )
-    if (bool == true) then
-        ui_objects_group.isVisible = false
-    else
-        ui_objects_group.isVisible = true
-    end
-end
+require('modules.rgb_color_library')
+require('scenes.debug')
 
 function CheckForUpdates()
     local latest_version_url = "https://pastebin.com/raw/DG23Z1w3"
@@ -25,12 +17,11 @@ function CheckForUpdates()
     if latest_version ~= nil then
         if (string.find(latest_version, "%d%.%d.%d+") == 1) then
             if app_version.version == latest_version then
-                local application_version = display.newText( "Version " .. latest_version, display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 10 )
+                application_version = display.newText( "Version " .. latest_version, display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 10 )
                 application_version:setFillColor(1, 0.9, 0.5)
                 application_version.x = display.contentCenterX
                 application_version.y = display.contentCenterX + display.contentCenterY - height_from_bottom
                 application_version.alpha = 0.50
-                ui_objects_group:insert(application_version)
             elseif app_version.version < latest_version then
                 local function onTextClick( event )
                     if ( event.phase == "began" ) then
@@ -38,13 +29,12 @@ function CheckForUpdates()
                     end
                     return true
                 end
-                local application_version = display.newText( "Version " .. latest_version .. " is available!", display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 10 )
+                application_version = display.newText( "Version " .. latest_version .. " is available!", display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 10 )
                 application_version:setFillColor(1, 0.9, 0.5)
                 application_version.x = display.contentCenterX
                 application_version.y = display.contentCenterX + display.contentCenterY - height_from_bottom
                 application_version.alpha = 0.50
                 application_version:addEventListener( "touch", onTextClick )
-                ui_objects_group:insert(application_version)
             elseif app_version.version > latest_version then
                 -- do nothing
             end
@@ -53,5 +43,4 @@ function CheckForUpdates()
 end
 -- init check for updates
 CheckForUpdates()
-
-composer.gotoScene( "scenes.menu" )
+composer.gotoScene( "scenes.loginScreen" )

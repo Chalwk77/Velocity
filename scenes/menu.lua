@@ -10,9 +10,7 @@ local background
 local onMouseEvent
 local onTouch
 local sidebar_group
-local logo_line
 local line_logo_group
-require('scenes.debug')
 
 function scene:create( event )
     line_logo_group = display.newGroup()
@@ -24,11 +22,6 @@ function scene:create( event )
     local wScreen = display.actualContentWidth
     local yScreen = display.contentCenterY - display.actualContentHeight / 2
     local hScreen = display.actualContentHeight
-
-    local bottomY = display.contentHeight - display.screenOriginY
-    local leftX = display.screenOriginX
-    local rightX = display.contentWidth - display.screenOriginX
-    local screenW = rightX - leftX
 
     -- create menu background
     background = display.newImage( group, "images/backgrounds/background1.png" )
@@ -44,8 +37,13 @@ function scene:create( event )
     logo.y = display.contentCenterY - 200
     logo:scale(0.40, 0.40)
     group:insert(logo)
-    ui_objects_group:insert(logo)
     line_logo_group:insert(logo)
+
+
+    local bottomY = display.contentHeight - display.screenOriginY
+    local leftX = display.screenOriginX
+    local rightX = display.contentWidth - display.screenOriginX
+    local screenW = rightX - leftX
 
     -- create logo
     logo_line = display.newLine(leftX + screenW + 35, bottomY, rightX - screenW + 35, bottomY)
@@ -54,7 +52,6 @@ function scene:create( event )
     logo_line.strokeWidth = 1
     logo_line:setStrokeColor(0.3, 0.1, 0.2, 1)
     logo_line.alpha = 1
-    ui_objects_group:insert(logo_line)
     line_logo_group:insert(logo_line)
 
     menu_buttons = { }
@@ -70,7 +67,6 @@ function scene:create( event )
             elseif button_name == "EXIT" then
                 showDialog("CONFIRM EXIT", "Are you sure you want to exit?", 22)
             else
-                hideUiObjects(true)
                 for k, v in pairs(menu_buttons) do
                     if string.find(menu_buttons[k][1], button_name) then
                         composer.gotoScene(menu_buttons[k][2])
@@ -139,7 +135,6 @@ function scene:create( event )
         self.view:insert( sidebar_group )
         local function callBack( itemId )
             if itemId ~= nil then
-                hideUiObjects(true)
                 composer.gotoScene( itemId, {effect = "crossFade", time = 100} )
             end
         end
@@ -209,9 +204,27 @@ onTouch = function( event )
 end
 
 function scene:show( event )
+    local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "will" ) then
-        -- do something
+        -- do nothing
+    elseif ( phase == "did" ) then
+        application_version.isVisible = true
+        logo_line.isVisible = true
+        logo.isVisible = true
+        line_logo_group.alpha = 1
+    end
+end
+
+function scene:hide( event )
+    local sceneGroup = self.view
+    local phase = event.phase
+    if ( phase == "will" ) then
+        -- do nothing
+    elseif ( phase == "did" ) then
+        application_version.isVisible = false
+        logo_line.isVisible = false
+        logo.isVisible = false
     end
 end
 
@@ -220,4 +233,5 @@ end
 -- -----------------------------------------------------------------------------------
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
 return scene

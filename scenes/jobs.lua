@@ -5,18 +5,18 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
-require('scenes.debug')
-
-local screenLeft = display.screenOriginX
-local screenWidth = display.viewableContentWidth - screenLeft * 2
-local screenRight = screenLeft + screenWidth
-local screenTop = display.screenOriginY
-local screenHeight = display.viewableContentHeight - screenTop * 2
-local screenBottom = screenTop + screenHeight
 
 local function setUpDisplay(group)
-    local background = display.newImageRect(group, "images/backgrounds/background1.png", display.contentWidth + 550, display.contentHeight + 1000)
-    background.alpha = 1
+    -- create menu background
+    local screenLeft = display.screenOriginX
+    local screenWidth = display.viewableContentWidth - screenLeft * 2
+    local screenTop = display.screenOriginY
+    local screenHeight = display.viewableContentHeight - screenTop * 2
+    background = display.newImage( group, "images/backgrounds/background1.png" )
+    background.x = display.contentWidth * 0.5
+    background.y = display.contentHeight * 0.5
+    local scale = math.max( screenWidth / background.width, screenHeight / background.height )
+    background:scale( scale, scale )
     group:insert(background)
     local x, y = -2, 0
     local spacing = 65
@@ -45,7 +45,7 @@ function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "will" ) then
-        hideUiObjects(true)
+
     end
 end
 
