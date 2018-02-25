@@ -28,14 +28,12 @@ local function setUpDisplay(group)
             x = x * spacing + display.contentCenterX,
             y = display.contentCenterX + y * spacing + height,
             onRelease = function()
-                debug_message:removeSelf() -- temporary
                 composer.gotoScene( "scenes.menu", {effect = "crossFade", time = 100})
             end
         }
     )
     back_button:scale(0.080, 0.080)
     group:insert(back_button)
-    debug("... in development ...") -- temporary
 end
 
 function scene:create( event )
@@ -47,9 +45,7 @@ function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "will" ) then
-        if application_version ~= nil then
-            application_version.isVisible = false
-        end
+        hideUiObjects(true)
     end
 end
 

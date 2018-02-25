@@ -47,9 +47,7 @@ function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "will" ) then
-        if application_version ~= nil then
-            application_version.isVisible = false
-        end
+        hideUiObjects(true)
     end
 end
 

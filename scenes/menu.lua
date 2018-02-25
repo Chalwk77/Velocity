@@ -11,17 +11,26 @@ local onMouseEvent
 local onTouch
 local sidebar_group
 local logo_line
+local line_logo_group
 require('scenes.debug')
 
 function scene:create( event )
+    line_logo_group = display.newGroup()
     scene.menu = 0
     local group = display.newGroup()
     self.view:insert( group )
+
     local xScreen = display.contentCenterX - display.actualContentWidth / 2
     local wScreen = display.actualContentWidth
     local yScreen = display.contentCenterY - display.actualContentHeight / 2
     local hScreen = display.actualContentHeight
 
+    local bottomY = display.contentHeight - display.screenOriginY
+    local leftX = display.screenOriginX
+    local rightX = display.contentWidth - display.screenOriginX
+    local screenW = rightX - leftX
+
+    -- create menu background
     background = display.newImage( group, "images/backgrounds/background1.png" )
     background.x = display.contentWidth * 0.5
     background.y = display.contentHeight * 0.5
@@ -29,12 +38,24 @@ function scene:create( event )
     background:scale( scale, scale )
     group:insert(background)
 
+    -- create logo
     logo = display.newImage("images/logo.png")
     logo.x = display.contentCenterX + - 3
     logo.y = display.contentCenterY - 200
     logo:scale(0.40, 0.40)
     group:insert(logo)
     ui_objects_group:insert(logo)
+    line_logo_group:insert(logo)
+
+    -- create logo
+    logo_line = display.newLine(leftX + screenW + 35, bottomY, rightX - screenW + 35, bottomY)
+    logo_line.x = screenW
+    logo_line.y = logo.y + 55
+    logo_line.strokeWidth = 1
+    logo_line:setStrokeColor(0.3, 0.1, 0.2, 1)
+    logo_line.alpha = 1
+    ui_objects_group:insert(logo_line)
+    line_logo_group:insert(logo_line)
 
     menu_buttons = { }
     menu_buttons[1] = { "MENU"}
@@ -47,7 +68,7 @@ function scene:create( event )
             if button_name == "MENU" then
                 scene:showSlidingMenu()
             elseif button_name == "EXIT" then
-                showDialog("CONFIRM EXIT", "Are you sure you want to exit?")
+                showDialog("CONFIRM EXIT", "Are you sure you want to exit?", 22)
             else
                 hideUiObjects(true)
                 for k, v in pairs(menu_buttons) do
@@ -164,14 +185,11 @@ function scene:create( event )
             },
         }
         local sidebar = uiLib.displaySlidingDialog(slidingMenuTable[1])
-        local fade = transition.to(logo, { time = 300, alpha = 0.1})
+        local fade = transition.to(line_logo_group, { time = 300, alpha = 0.1})
 
-        local logo_line_fade = transition.to(logo_line, { time = 300, alpha = 0})
-
-        local platformName = system.getInfo("platformName")
-        if platformName == "Win" then
+        if system.getInfo("platformName") == "Win" then
             Runtime:addEventListener( "mouse", onMouseEvent )
-        elseif (platformName == "Android") or (platformName == "WinPhone") then
+        elseif (system.getInfo("platformName") == "Android") or (system.getInfo("platformName") == "WinPhone") then
             Runtime:addEventListener( "touch", onTouch )
         end
     end
@@ -179,7 +197,7 @@ end
 
 onMouseEvent = function(event)
     if event.isPrimaryButtonDown then
-        local fade = transition.to(logo, { time = 300, alpha = 1})
+        local fade1 = transition.to(line_logo_group, { time = 300, alpha = 1})
         local fade2 = transition.to(sidebar_group, { time = 350, alpha = 0})
         Runtime:removeEventListener( "mouse", onMouseEvent )
     end
@@ -193,17 +211,7 @@ end
 function scene:show( event )
     local phase = event.phase
     if ( phase == "will" ) then
-        local bottomY = display.contentHeight - display.screenOriginY
-        local leftX = display.screenOriginX
-        local rightX = display.contentWidth - display.screenOriginX
-        local screenW = rightX - leftX
-        logo_line = display.newLine(leftX + screenW + 35, bottomY, rightX - screenW + 35, bottomY)
-        logo_line.x = screenW
-        logo_line.y = logo.y + 55
-        logo_line.strokeWidth = 1
-        logo_line:setStrokeColor(0.3, 0.1, 0.2, 1)
-        logo_line.alpha = 1
-        ui_objects_group:insert(logo_line)
+        -- do something
     end
 end
 

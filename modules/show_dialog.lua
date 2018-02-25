@@ -1,5 +1,5 @@
 local uiLib = require "plugin.braintonik-dialog"
-function showDialog(title, string)
+function showDialog(title, string, font_size, bool)
     local xScreen = display.contentCenterX - display.actualContentWidth / 2
     local wScreen = display.actualContentWidth
     local yScreen = display.contentCenterY - display.actualContentHeight / 2
@@ -20,16 +20,31 @@ function showDialog(title, string)
             background.isVisible = false
         end
     end
+    local function updatePrompt(id)
+        if id == "YES" then
+            system.openURL("https://play.google.com/store/apps/details?id=com.gmail.crosby227.jericho.Velocity")
+            background.isVisible = false
+        elseif id == "NO" then
+            background.isVisible = false
+        end
+    end
     options.alpha = 1
-    options.titleFontSize = 22
+    options.titleFontSize = font_size
     options.titleColor = {0.9, 0.1, 0.1, options.alpha}
     options.titleString = title
     options.textString = string
-    options.buttonHandler = callBack
+    if (bool == false) then
+        options.buttonHandler = callBack
+    elseif (bool == true) then
+        options.buttonHandler = updatePrompt
+    else
+        options.buttonHandler = callBack
+    end
     options.buttonName = { "YES", "NO"}
     options.xScreen = xScreen
     options.yScreen = yScreen
     options.wScreen = wScreen
     options.hScreen = hScreen
     uiLib.displayPopupDialog( options )
+    bool = nil
 end

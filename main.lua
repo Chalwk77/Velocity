@@ -9,9 +9,9 @@ require('modules.show_dialog')
 ui_objects_group = display.newGroup()
 hideUiObjects = function( bool )
     if (bool == true) then
-        ui_objects_group.isVisible = true
-    else
         ui_objects_group.isVisible = false
+    else
+        ui_objects_group.isVisible = true
     end
 end
 
@@ -25,30 +25,20 @@ function CheckForUpdates()
     if latest_version ~= nil then
         if (string.find(latest_version, "%d%.%d.%d+") == 1) then
             if app_version.version == latest_version then
-                application_version = display.newText( "Version " .. latest_version, display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 10 )
+                local application_version = display.newText( "Version " .. latest_version, display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 10 )
                 application_version:setFillColor(1, 0.9, 0.5)
                 application_version.x = display.contentCenterX
                 application_version.y = display.contentCenterX + display.contentCenterY - height_from_bottom
                 application_version.alpha = 0.50
                 ui_objects_group:insert(application_version)
             elseif app_version.version < latest_version then
-                local function onComplete( event )
-                    if ( event.action == "clicked" ) then
-                        local i = event.index
-                        if (i == 2 ) then
-                            system.openURL("https://play.google.com/store/apps/details?id=com.gmail.crosby227.jericho.Velocity")
-                        else
-                            -- do nothing
-                        end
-                    end
-                end
                 local function onTextClick( event )
                     if ( event.phase == "began" ) then
-                        local alert = native.showAlert( "Download Latest Update", "Would you like to download the latest update?", { "No", "Yes" }, onComplete )
+                        showDialog("Download Latest Update", "Would you like to download the latest update?", 18, true)
                     end
                     return true
                 end
-                application_version = display.newText( "Version " .. latest_version .. " is available!", display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 10 )
+                local application_version = display.newText( "Version " .. latest_version .. " is available!", display.viewableContentWidth / 2, display.viewableContentHeight / 2, native.systemFontBold, 10 )
                 application_version:setFillColor(1, 0.9, 0.5)
                 application_version.x = display.contentCenterX
                 application_version.y = display.contentCenterX + display.contentCenterY - height_from_bottom
