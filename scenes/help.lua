@@ -84,7 +84,6 @@ local function setUpDisplay(group)
     until tmpString == nil or string.len( tmpString ) == 0
     group:insert(info)
     local copyright = display.newText( group, "© 2018, Velocity, Jericho Crosby <jericho.crosby227@gmail.com>", 0, 0, native.systemFontBold, 8 )
-    local spacing = 100
     local xPos = screenLeft + 10
     local yPos = screenBottom - 10
     copyright.x = xPos + 120

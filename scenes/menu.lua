@@ -160,7 +160,7 @@ function scene:create( event )
                 itemListFontSize = 12,
 
                 itemList = {
-                    { iconFilename = "images/sidebar_logo.png", iconWidth = 96, iconHeight = 96, name = "USERNAME | ERROR", height = 142, justify = "center" },
+                    { iconFilename = "images/sidebar_logo.png", iconWidth = 96, iconHeight = 96, name = "GET_USERNAME", height = 142, justify = "center" },
                     { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
                     { iconFilename = "images/messages.png", iconWidth = 24, iconHeight = 24, name = "Messages", height = 50, id = "scenes.messages"},
                     { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
