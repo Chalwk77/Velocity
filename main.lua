@@ -2,6 +2,19 @@ local composer = require( "composer" )
 local http = require "socket.http"
 local ltn12 = require("ltn12")
 local build_version = system.getInfo( "appVersionString" )
+
+require('modules.show_dialog')
+
+-- used to show|hide objects
+ui_objects_group = display.newGroup()
+hideUiObjects = function( bool )
+    if (bool == true) then
+        ui_objects_group.isVisible = true
+    else
+        ui_objects_group.isVisible = false
+    end
+end
+
 function CheckForUpdates()
     local latest_version_url = "https://pastebin.com/raw/DG23Z1w3"
     local app_version = {version = build_version}
@@ -17,6 +30,7 @@ function CheckForUpdates()
                 application_version.x = display.contentCenterX
                 application_version.y = display.contentCenterX + display.contentCenterY - height_from_bottom
                 application_version.alpha = 0.50
+                ui_objects_group:insert(application_version)
             elseif app_version.version < latest_version then
                 local function onComplete( event )
                     if ( event.action == "clicked" ) then
@@ -40,6 +54,7 @@ function CheckForUpdates()
                 application_version.y = display.contentCenterX + display.contentCenterY - height_from_bottom
                 application_version.alpha = 0.50
                 application_version:addEventListener( "touch", onTextClick )
+                ui_objects_group:insert(application_version)
             elseif app_version.version > latest_version then
                 -- do nothing
             end

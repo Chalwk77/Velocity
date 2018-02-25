@@ -34,23 +34,27 @@ function scene:create( event )
     logo.y = display.contentCenterY - 200
     logo:scale(0.40, 0.40)
     group:insert(logo)
+    ui_objects_group:insert(logo)
 
-    local buttonNameTable = {
-        ["MENU"] = "nil",
-        ["JOBS"] = "scenes.jobs",
-        ["CALANDER"] = "scenes.calendar",
-        ["EXIT"] = "nil"
-    }
+    menu_buttons = { }
+    menu_buttons[1] = { "MENU"}
+    menu_buttons[2] = { "JOBS", "scenes.jobs"}
+    menu_buttons[3] = { "CALANDER", "scenes.calendar"}
+    menu_buttons[4] = { "EXIT"}
 
     local function createUIButton( parentGroup, name, x, y, w, h )
-        local function buttonCallback( button_id )
-            if button_id == "MENU" then
+        local function buttonCallback(button_name)
+            if button_name == "MENU" then
                 scene:showSlidingMenu()
-            elseif button_id == "EXIT" then
-                showDialog()
+            elseif button_name == "EXIT" then
+                showDialog("CONFIRM EXIT", "Are you sure you want to exit?")
             else
-                application_version.isVisible = false
-                composer.gotoScene( buttonNameTable[button_id] )
+                hideUiObjects(true)
+                for k, v in pairs(menu_buttons) do
+                    if string.find(menu_buttons[k][1], button_name) then
+                        composer.gotoScene(menu_buttons[k][2])
+                    end
+                end
             end
         end
         local options = {
@@ -63,7 +67,7 @@ function scene:create( event )
             h = h,
             align = "center",
             alignLeftRightMargin = 20,
-            spaceBetweenIconAndText = 50,
+            spaceBetweenIconAndText = 10,
             shapeBkGradientColor = {
                 type = "gradient",
                 color1 = { 0.3, 0.8, 0.9 },
@@ -97,14 +101,16 @@ function scene:create( event )
         local buttons = uiLib.newUIButton( options )
     end
 
-    local height_from_bottom = 150
-    local wButton = 140
+    local height_from_bottom = 120
+    local wButton = 120
     local xButton = xScreen + wScreen / 2 - wButton / 2
     local yButton = yScreen + height_from_bottom
-    local hButton = 44
-    for key, value in pairs(buttonNameTable) do
-        createUIButton( group, key, xButton, yButton, wButton, hButton )
-        yButton = yButton + hButton + 10
+    local hButton = 40
+    local spacing = 10
+
+    for k, v in pairs(menu_buttons) do
+        createUIButton(group, v[1], xButton, yButton, wButton, hButton)
+        yButton = yButton + hButton + spacing
     end
 
     function scene:showSlidingMenu()
@@ -112,7 +118,7 @@ function scene:create( event )
         self.view:insert( sidebar_group )
         local function callBack( itemId )
             if itemId ~= nil then
-                logo.isVisible = false
+                hideUiObjects(true)
                 composer.gotoScene( itemId, {effect = "crossFade", time = 100} )
             end
         end
@@ -184,58 +190,21 @@ onTouch = function( event )
     Runtime:removeEventListener( "touch", onTouch )
 end
 
-function showDialog( event )
-    local xScreen = display.contentCenterX - display.actualContentWidth / 2
-    local wScreen = display.actualContentWidth
-    local yScreen = display.contentCenterY - display.actualContentHeight / 2
-    local hScreen = display.actualContentHeight
-    local dialog_group = display.newGroup()
-    local background = display.newImage( dialog_group, "images/backgrounds/background2.jpg" )
-    background.x = display.contentWidth * 0.5
-    background.y = display.contentHeight * 0.5
-    local scale = math.max( wScreen / background.width, hScreen / background.height )
-    background:scale( scale, scale )
-    local options = uiLib.applyOptionsFromTemplate( "rectGreyBlue" )
-    uiLib.addTransition( options, "TopToBottom" )
-    uiLib.addBackgroundOptions( options, true )
-    local function callBack( id )
-        if id == "YES" then
-            native.requestExit()
-        elseif id == "NO" then
-            background.isVisible = false
-        end
-    end
-    options.alpha = 1
-    options.titleFontSize = 22
-    options.titleColor = {0.9, 0.1, 0.1, options.alpha}
-    options.titleString = "Confirm Exit"
-    options.textString = "Are you sure you want to exit?"
-    options.buttonHandler = callBack
-    options.buttonName = { "YES", "NO"}
-    options.xScreen = xScreen
-    options.yScreen = yScreen
-    options.wScreen = wScreen
-    options.hScreen = hScreen
-    uiLib.displayPopupDialog( options )
-end
-
 function scene:show( event )
-    local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "will" ) then
-        if application_version ~= nil and application_version.isVisible == false then application_version.isVisible = true end
-        if logo ~= nil and logo.isVisible == false then logo.isVisible = true end
+        local bottomY = display.contentHeight - display.screenOriginY
+        local leftX = display.screenOriginX
+        local rightX = display.contentWidth - display.screenOriginX
+        local screenW = rightX - leftX
+        logo_line = display.newLine(leftX + screenW + 35, bottomY, rightX - screenW + 35, bottomY)
+        logo_line.x = screenW
+        logo_line.y = logo.y + 55
+        logo_line.strokeWidth = 1
+        logo_line:setStrokeColor(0.3, 0.1, 0.2, 1)
+        logo_line.alpha = 1
+        ui_objects_group:insert(logo_line)
     end
-    local bottomY = display.contentHeight - display.screenOriginY
-    local leftX = display.screenOriginX
-    local rightX = display.contentWidth - display.screenOriginX
-    local screenW = rightX - leftX
-    logo_line = display.newLine(leftX + screenW + 35, bottomY, rightX - screenW + 35, bottomY)
-    logo_line.x = screenW
-    logo_line.y = logo.y + 55
-    logo_line.strokeWidth = 1
-    logo_line:setStrokeColor(0.3, 0.1, 0.2, 1)
-    logo_line.alpha = 1
 end
 
 -- -----------------------------------------------------------------------------------
@@ -243,5 +212,4 @@ end
 -- -----------------------------------------------------------------------------------
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
-scene:addEventListener( "showdialog", scene )
 return scene
