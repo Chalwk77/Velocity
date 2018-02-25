@@ -44,7 +44,7 @@ end
 
 debug = function(debug_text)
     if debug_text ~= nil then
-        local debug_message = display.newText(tostring(debug_text), 0, 0, native.systemFontBold, 15 )
+        debug_message = display.newText(tostring(debug_text), 0, 0, native.systemFontBold, 15 )
         debug_message.x = display.contentCenterX
         debug_message.y = display.contentCenterY - 80
         debug_message:setFillColor(255, 0, 0, 1)

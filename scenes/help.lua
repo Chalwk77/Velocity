@@ -16,8 +16,7 @@ local screenBottom = screenTop + screenHeight
 
 local function switchScene(event, data)
     local sceneID = event.target.id
-    local options = {effect = "crossFade", time = 100}
-    composer.gotoScene( sceneID, options )
+    composer.gotoScene( sceneID, {effect = "crossFade", time = 100} )
 end
 
 local function setUpDisplay(group)
