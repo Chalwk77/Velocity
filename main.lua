@@ -8,6 +8,7 @@ user_logged_out = nil
 require('modules.utility')
 require('modules.show_dialog')
 require('modules.rgb_color_library')
+require('modules.loading')
 require('scenes.debug')
 
 function CheckForUpdates()
@@ -46,4 +47,13 @@ function CheckForUpdates()
 end
 -- init check for updates
 CheckForUpdates()
+
+init_loading_screen = function(scene_name, delay)
+    timer.performWithDelay(0, function()
+        scene_id = scene_name
+        duration = delay
+        composer.gotoScene('modules.loading', {effect = "crossFade", time = 0})
+    end)
+end
+
 composer.gotoScene( "scenes.loginScreen" )

@@ -133,7 +133,8 @@ function scene:create( event )
 
     local function loginCallback(event)
         local function showMenu()
-            composer.gotoScene("scenes.menu", {effect = "slideFromLeft", time = 500})
+            init_loading_screen('scenes.menu', 1000)
+            --composer.gotoScene("scenes.menu", {effect = "slideFromLeft", time = 500})
             loginScreen:removeSelf()
         end
         group:removeSelf()
@@ -178,6 +179,7 @@ function scene:create( event )
         local userid = frmUsername.text
         local password = frmPassword.text
         if (userid == '' and password == '') then
+            print("both fields empty")
             labelReturnStatus.text = 'A username and password is required!'
         elseif (userid == '' and password ~= '') then
             labelReturnStatus.text = 'A username is required!'
@@ -186,13 +188,15 @@ function scene:create( event )
         end
         labelReturnStatus:setTextColor(255, 0, 0)
         for k, v in pairs(users) do
-            if (string.find(k, userid) and (password == users[k][1])) then
+            if (k == userid) and (password == users[k][1]) then
                 first_name = users[k][2]
                 loginCallback()
                 break
             else
-                --labelReturnStatus.text = 'invalid username or password'
-                --labelReturnStatus:setTextColor(255, 0, 0)
+                if (userid ~= '' and password ~= '') then
+                    labelReturnStatus.text = 'invalid username or password'
+                    labelReturnStatus:setTextColor(255, 0, 0)
+                end
             end
         end
     end
