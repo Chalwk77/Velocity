@@ -35,3 +35,17 @@ composer.effectList["slideFromRight"] = {
         transition = easing.outQuad
     }
 }
+
+draw_seperator = function(height, stroke)
+    seperator_group = display.newGroup()
+    if stroke then stroke = stroke else stroke = 0.8 end
+    if height then height = height else height = - 15 end
+    local n1 = (display.screenOriginX + display.contentWidth)
+    local n2 = (display.contentHeight - display.screenOriginY)
+    local n3 = (display.contentWidth - display.contentWidth - display.screenOriginX)
+    new_seperator = display.newLine(n1, n2, n3, n2)
+    new_seperator.strokeWidth = stroke
+    new_seperator:setStrokeColor(255, 255, 255)
+    new_seperator.y = new_seperator.y + height
+    seperator_group:insert(new_seperator)
+end

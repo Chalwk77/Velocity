@@ -3,6 +3,7 @@
 -- (c) 2018, Velocity by Jericho Crosby <jericho.crosby227@gmail.com>
 -----------------------------------------------------------------------------------------
 local composer = require( "composer" )
+local widget = require("widget")
 local uiLib = require "plugin.braintonik-dialog"
 local scene = composer.newScene()
 local logo
@@ -39,7 +40,6 @@ function scene:create( event )
     group:insert(logo)
     line_logo_group:insert(logo)
 
-
     local bottomY = display.contentHeight - display.screenOriginY
     local leftX = display.screenOriginX
     local rightX = display.contentWidth - display.screenOriginX
@@ -59,6 +59,12 @@ function scene:create( event )
     menu_buttons[2] = { "JOBS", "scenes.jobs"}
     menu_buttons[3] = { "CALANDER", "scenes.calendar"}
     menu_buttons[4] = { "EXIT"}
+
+    local function logout()
+        user_logged_out = true
+        -- to do: logout (revolving animation here)
+        composer.gotoScene("scenes.loginScreen")
+    end
 
     local function createUIButton( parentGroup, name, x, y, w, h )
         local function buttonCallback(button_name)
@@ -135,7 +141,11 @@ function scene:create( event )
         self.view:insert( sidebar_group )
         local function callBack( itemId )
             if itemId ~= nil then
-                composer.gotoScene( itemId, {effect = "crossFade", time = 100} )
+                if (itemId == "logout") then
+                    logout()
+                else
+                    composer.gotoScene( itemId, {effect = "crossFade", time = 100} )
+                end
             end
         end
         local slidingMenuTable = {
@@ -151,16 +161,14 @@ function scene:create( event )
                 },
                 buttonHandler = callBack,
                 borderSize = 7,
-
                 itemListTextMarginPadding = 44,
                 itemListIconMarginPadding = 10,
                 itemListJustify = "left",
                 itemListcenterSpacing = 5,
                 itemListFont = native.systemFont,
                 itemListFontSize = 12,
-
                 itemList = {
-                    { iconFilename = "images/sidebar_logo.png", iconWidth = 96, iconHeight = 96, name = "GET_USERNAME", height = 142, justify = "center" },
+                    { iconFilename = "images/sidebar_logo.png", iconWidth = 96, iconHeight = 96, name = first_name, height = 142, justify = "center" },
                     { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
                     { iconFilename = "images/messages.png", iconWidth = 24, iconHeight = 24, name = "Messages", height = 50, id = "scenes.messages"},
                     { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
@@ -171,6 +179,7 @@ function scene:create( event )
                     { iconFilename = "images/jobs.png", iconWidth = 24, iconHeight = 24, name = "Jobs", height = 50, id = "scenes.jobs"},
                     { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
                     { iconFilename = "images/help.png", iconWidth = 24, iconHeight = 24, name = "Help", height = 50, id = "scenes.help"},
+                    { iconFilename = "images/buttons/logout.png", iconWidth = 54, iconHeight = 32, height = 50, id = "logout"},
 
                 },
                 xScreen = xScreen,
@@ -234,4 +243,9 @@ end
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
+
+function OnError(Message)
+    print(debug.traceback())
+end
+
 return scene

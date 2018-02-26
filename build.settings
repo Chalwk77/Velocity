@@ -6,6 +6,10 @@ settings =
         {
             publisherId = "com.braintonik",
         },
+        ["plugin.notifications.v2"] =
+        {
+         publisherId = "com.coronalabs"
+        },
     },
   	excludeFiles =
   	{

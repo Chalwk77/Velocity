@@ -1,10 +1,15 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
-local mime = require("mime")
-local json = require("json")
 local widget = require("widget")
+local logout_button
+local users = {
+    ["Chalwk77"] = {"vm315", "Jericho"},
+    ["Kourtney91"] = {"admin", "Kourtney"},
+    ["Kaitlyn97"] = {"admin", "Kaitlyn"}
+}
 
 function scene:create( event )
+
     local loginScreen = display.newGroup()
     local group = display.newGroup()
 
@@ -53,8 +58,10 @@ function scene:create( event )
     labelUsername.y = bottom_screen - 260
     loginScreen:insert(labelUsername)
     group:insert(labelUsername)
+
     -- username text field
     local frmUsername = native.newTextField(0, 0, _W * 0.8, 30)
+    frmUsername:resizeHeightToFitFont()
     frmUsername.inputType = "default"
     frmUsername.font = native.newFont(font, 18)
     frmUsername.isEditable = true
@@ -62,6 +69,8 @@ function scene:create( event )
     frmUsername.x = _W * 0.5
     frmUsername.y = labelUsername.y + spacing
     frmUsername.text = ''
+    frmUsername.placeholder = "Enter your username"
+
     loginScreen:insert(frmUsername)
     group:insert(frmUsername)
 
@@ -74,6 +83,7 @@ function scene:create( event )
     group:insert(labelPassword)
     -- password text field
     local frmPassword = native.newTextField(0, 0, _W * 0.8, 30)
+    frmPassword:resizeHeightToFitFont()
     frmPassword.inputType = "default"
     frmPassword.font = native.newFont(font, 18)
     frmPassword.isEditable = true
@@ -82,6 +92,7 @@ function scene:create( event )
     frmPassword.x = _W * 0.5
     frmPassword.y = labelPassword.y + spacing
     frmPassword.text = ''
+    frmPassword.placeholder = "Enter your Password"
     loginScreen:insert(frmPassword)
     group:insert(frmPassword)
 
@@ -100,50 +111,37 @@ function scene:create( event )
 
     function frmUsername:userInput(event)
         if(event.phase == "began") then
-            event.target.text = ''
+            labelReturnStatus.text = ''
         elseif(event.phase == "editing") then
         elseif(event.phase == "ended") then
         elseif(event.phase == "submitted") then
-            btnOnReleaseHandler()
+            handleInput()
         end
     end
     frmUsername:addEventListener("userInput", frmUsername)
 
     function frmPassword:userInput(event)
         if(event.phase == "began") then
-            event.target.text = ''
+            labelReturnStatus.text = ''
         elseif(event.phase == "editing") then
         elseif(event.phase == "ended") then
         elseif(event.phase == "submitted") then
-            btnOnReleaseHandler()
+            handleInput()
         end
     end
     frmPassword:addEventListener("userInput", frmPassword)
 
     local function loginCallback(event)
-        -----------temporary--------------------------------------
         local function showMenu()
-            composer.gotoScene("scenes.menu", {effect = "slideFromLeft", time = 300})
+            composer.gotoScene("scenes.menu", {effect = "slideFromLeft", time = 500})
             loginScreen:removeSelf()
         end
         group:removeSelf()
-        local welcome_message = display.newText(loginScreen, "WELCOME BACK", 0, 0, font, 16)
-        welcome_message.x = display.contentCenterX
-        welcome_message.y = display.contentCenterY
-        welcome_message:setTextColor(0, 255, 0)
+        labelReturnStatus.text = 'Welcome back ' .. first_name
+        labelReturnStatus.x = display.contentCenterX
+        labelReturnStatus.y = display.contentCenterY
+        labelReturnStatus:setTextColor(0, 255, 0)
         timer.performWithDelay(1000 * 2, showMenu)
-        -----------temporary--------------------------------------
-        if ( event.isError ) then
-            print( "Network error!");
-        else
-            local data = json.decode(event.response)
-            if data.result == 200 then
-                labelReturnStatus.text = "Welcome back "..data.firstname:gsub("^%l", string.upper)
-                timer.performWithDelay(1000 * 2, showMenu)
-            else
-                labelReturnStatus.text = "Please try again"
-            end
-        end
         return true;
     end
 
@@ -155,13 +153,12 @@ function scene:create( event )
     local function login_button_handler(event)
         handleInput()
     end
-
     local login_button = widget.newButton({
         id = "Login Button",
         left = 30,
         top = frmPassword.y + 30,
         label = "Login",
-        width = 256,
+        width = 261,
         height = 36,
         font = font,
         fontsize = 18,
@@ -169,7 +166,7 @@ function scene:create( event )
             default = {0.8, 0.2, 0.1},
             over = {255, 255, 255}
         },
-        defaultColor = {201, 107, 61},
+        defaultColor = {201, 107, 61, 0},
         overColor = {219, 146, 85},
         onRelease = login_button_handler
     })
@@ -177,6 +174,7 @@ function scene:create( event )
     group:insert(login_button)
 
     function handleInput()
+        showing_status = nil
         local userid = frmUsername.text
         local password = frmPassword.text
         if (userid == '' and password == '') then
@@ -187,9 +185,16 @@ function scene:create( event )
             labelReturnStatus.text = 'A password is required!'
         end
         labelReturnStatus:setTextColor(255, 0, 0)
-        local URL = "http://external.com/json.php?userid=" .. mime.b64(userid) .. "&password=" .. mime.b64(password);
-        network.request( URL, "GET", loginCallback )
-        return
+        for k, v in pairs(users) do
+            if (string.find(k, userid) and (password == users[k][1])) then
+                first_name = users[k][2]
+                loginCallback()
+                break
+            else
+                --labelReturnStatus.text = 'invalid username or password'
+                --labelReturnStatus:setTextColor(255, 0, 0)
+            end
+        end
     end
 end
 
@@ -197,9 +202,9 @@ function scene:show(event)
     local sceneGroup = self.view
     local phase = event.phase
     if (phase == "did") then
-        if (frmPassword.isVisible ~= nil and frmPassword.isVisible == false) and (frmUsername.isVisible ~= nil and frmUsername.isVisible == false) then
-            frmPassword.isVisible = true
-            frmUsername.isVisible = true
+        if (user_logged_out == true) then
+            user_logged_out = nil
+            scene:create()
         end
     end
 end

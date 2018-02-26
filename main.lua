@@ -3,6 +3,8 @@ local http = require "socket.http"
 local ltn12 = require("ltn12")
 local build_version = system.getInfo( "appVersionString" )
 
+user_logged_out = nil
+
 require('modules.utility')
 require('modules.show_dialog')
 require('modules.rgb_color_library')
