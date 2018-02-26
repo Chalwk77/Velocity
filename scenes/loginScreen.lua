@@ -1,7 +1,6 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
-local logout_button
 local users = {
     ["Chalwk77"] = {"vm315", "Jericho"},
     ["Kourtney91"] = {"admin", "Kourtney"},
@@ -133,8 +132,7 @@ function scene:create( event )
 
     local function loginCallback(event)
         local function showMenu()
-            init_loading_screen('scenes.menu', 1000)
-            --composer.gotoScene("scenes.menu", {effect = "slideFromLeft", time = 500})
+            composer.gotoScene("scenes.menu", {effect = "slideFromLeft", time = 500})
             loginScreen:removeSelf()
         end
         group:removeSelf()

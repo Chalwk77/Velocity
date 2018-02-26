@@ -62,8 +62,7 @@ function scene:create( event )
 
     local function logout()
         user_logged_out = true
-        -- to do: logout (revolving animation here)
-        composer.gotoScene("scenes.loginScreen")
+        init_loading_screen('scenes.loginScreen', 5000)
     end
 
     local function createUIButton( parentGroup, name, x, y, w, h )
