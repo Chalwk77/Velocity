@@ -27,7 +27,7 @@ function scene:create( event )
     -- create menu background
     background = display.newImage( group, "images/backgrounds/background1.png" )
     background.x = display.contentWidth * 0.5
-    background.y = display.contentHeight * 0.5
+    background.y = display.contentHeight * 0.5 + 10
     local scale = math.max( wScreen / background.width, hScreen / background.height )
     background:scale( scale, scale )
     group:insert(background)

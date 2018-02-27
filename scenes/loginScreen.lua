@@ -153,9 +153,13 @@ function scene:create( event )
         elseif(event.phase == "ended") then
             editing = false
         elseif(event.phase == "submitted") then
-            handleInput()
-            frmUsername.text = ''
-            frmPassword.text = ''
+            if frmUsername.text ~= '' and frmPassword.text == '' then
+                native.setKeyboardFocus(frmPassword)
+            elseif frmUsername.text ~= '' and frmPassword.text ~= '' then
+                handleInput()
+            elseif frmUsername.text == '' and frmPassword.text == '' then
+                handleInput()
+            end
         end
     end
     frmUsername:addEventListener("userInput", frmUsername)
@@ -168,9 +172,13 @@ function scene:create( event )
         elseif(event.phase == "ended") then
             editing = false
         elseif(event.phase == "submitted") then
-            handleInput()
-            frmUsername.text = ''
-            frmPassword.text = ''
+            if frmPassword.text ~= '' and frmUsername.text == '' then
+                native.setKeyboardFocus(frmUsername)
+            elseif frmUsername.text ~= '' and frmPassword.text ~= '' then
+                handleInput()
+            elseif frmUsername.text == '' and frmPassword.text == '' then
+                handleInput()
+            end
         end
     end
     frmPassword:addEventListener("userInput", frmPassword)
@@ -198,8 +206,6 @@ function scene:create( event )
 
     local function login_button_handler(event)
         handleInput()
-        frmUsername.text = ''
-        frmPassword.text = ''
     end
 
     local login_button = widget.newButton({
@@ -244,6 +250,9 @@ function scene:create( event )
                 labelReturnStatus.text = 'invalid username or password'
                 labelReturnStatus:setTextColor(255, 0, 0)
             end
+        end
+        if (userid == '' and password == '') or (userid == '' and password ~= '') or (userid ~= '' and password == '') or (userid ~= '' and password ~= '') then
+            frmPassword.text = ''
         end
     end
 end
