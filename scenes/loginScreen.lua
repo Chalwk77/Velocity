@@ -185,11 +185,9 @@ function scene:create( event )
                 first_name = users[k][2]
                 loginCallback()
                 break
-            else
-                if (userid ~= '' and password ~= '') then
-                    labelReturnStatus.text = 'invalid username or password'
-                    labelReturnStatus:setTextColor(255, 0, 0)
-                end
+            elseif (userid ~= '' and password ~= '') then
+                labelReturnStatus.text = 'invalid username or password'
+                labelReturnStatus:setTextColor(255, 0, 0)
             end
         end
     end
