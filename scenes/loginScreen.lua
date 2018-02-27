@@ -308,24 +308,6 @@ function scene:create( event )
     --     attribute4 = "some_string_4",
     --     attribute5 = "some_string_5",
     -- } )
-    local calendar = require( "plugin.calendar" )
-
-    local unixTimeNow = os.time( os.date( '*t' ) )
-
-    local function addEventListener( event )
-        debug("calander event")
-    end
-    calendar.addEvent(
-        {
-            listener = addEventListener,
-            title = "Test Event",
-            startDate = unixTimeNow + 86400,
-            endDate = unixTimeNow + 86400 + 3600,
-            alarm = 30,
-            repeatFrequency = "day",
-            repeatEndDate = unixTimeNow + 604800
-        }
-    )
 end
 
 function scene:show(event)
