@@ -29,6 +29,15 @@ function showDialog(title, string, font_size, bool)
             background.isVisible = false
         end
     end
+    local function logoutPrompt(id)
+        if id == "YES" then
+            user_logged_out = true
+            background.isVisible = false
+            init_loading_screen('scenes.loginScreen', 4000)
+        elseif id == "NO" then
+            background.isVisible = false
+        end
+    end
     options.alpha = 1
     options.titleFontSize = font_size
     options.titleColor = {0.9, 0.1, 0.1, options.alpha}
@@ -38,6 +47,8 @@ function showDialog(title, string, font_size, bool)
         options.buttonHandler = callBack
     elseif (bool == true) then
         options.buttonHandler = updatePrompt
+    elseif (bool == "logout") then
+        options.buttonHandler = logoutPrompt
     else
         options.buttonHandler = callBack
     end

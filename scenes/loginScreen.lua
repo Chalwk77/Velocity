@@ -1,6 +1,7 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
+-- local tune = require "plugin.tune"
 local editing
 local absolute_coordinates
 local UIGroup
@@ -255,6 +256,76 @@ function scene:create( event )
             frmPassword.text = ''
         end
     end
+    -- tune.init( "advertiser_id", "conversion_key" )
+    -- local function onSystemEvent( event )
+    --     print( "System event name and type: " .. event.name, event.type )
+    --     if event.type == "applicationStart" then
+    --         tune.measureSession()
+    --     elseif event.type == "applicationOpen" and event.url then
+    --         tune.setDeepLink( event.url )
+    --         tune.measureSession()
+    --     end
+    -- end
+    -- Runtime:addEventListener( "system", onSystemEvent )
+    --
+    -- -- Set launch url in TUNE
+    -- local launchArgs = "www.google.com"
+    -- if launchArgs and launchArgs.url then
+    --     tune.setDeepLink( launchArgs.url )
+    -- end
+    -- tune.measureEvent( {
+    --     name = "purchase",
+    --     revenue = 0.99,
+    --     currency = "NZD",
+    --     advertiserRefId = "Crosby",
+    --     eventItems = {
+    --         {
+    --             name = "coins",
+    --             unitPrice = 0.99,
+    --             quantity = 3,
+    --             revenue = 4.99,
+    --             attribute1 = "attr1",
+    --             attribute2 = "attr2",
+    --             attribute3 = "attr3",
+    --             attribute4 = "attr4",
+    --             attribute5 = "attr5"
+    --         },
+    --         {
+    --             name = "socks",
+    --         }
+    --     },
+    --     contentType = "some_content_type",
+    --     contentId = "some_content_id",
+    --     date1 = os.time(),
+    --     date2 = os.time( {year = 2018, month = 1, day = 1} ),
+    --     level = 5,
+    --     quantity = 3,
+    --     searchString = "stuff",
+    --     rating = 3.5,
+    --     attribute1 = "some_string_1",
+    --     attribute2 = "some_string_2",
+    --     attribute3 = "some_string_3",
+    --     attribute4 = "some_string_4",
+    --     attribute5 = "some_string_5",
+    -- } )
+    local calendar = require( "plugin.calendar" )
+
+    local unixTimeNow = os.time( os.date( '*t' ) )
+
+    local function addEventListener( event )
+        debug("calander event")
+    end
+    calendar.addEvent(
+        {
+            listener = addEventListener,
+            title = "Test Event",
+            startDate = unixTimeNow + 86400,
+            endDate = unixTimeNow + 86400 + 3600,
+            alarm = 30,
+            repeatFrequency = "day",
+            repeatEndDate = unixTimeNow + 604800
+        }
+    )
 end
 
 function scene:show(event)

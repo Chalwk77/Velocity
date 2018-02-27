@@ -8,10 +8,9 @@ require('modules.rgb_color_library')
 require('scenes.debug')
 
 function CheckForUpdates()
-    local latest_version_url = "https://pastebin.com/raw/DG23Z1w3"
     local app_version = {version = build_version}
     local response = {}
-    local a, b, c = http.request({url = latest_version_url, sink = ltn12.sink.table(response)})
+    local a, b, c = http.request({url = "https://pastebin.com/raw/DG23Z1w3", sink = ltn12.sink.table(response)})
     local latest_version = response[1]
     local height_from_bottom = -100
     if latest_version ~= nil then

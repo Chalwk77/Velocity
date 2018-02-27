@@ -27,7 +27,7 @@ function scene:create( event )
     -- create menu background
     background = display.newImage( group, "images/backgrounds/background1.png" )
     background.x = display.contentWidth * 0.5
-    background.y = display.contentHeight * 0.5 + 10
+    background.y = display.contentHeight * 0.5
     local scale = math.max( wScreen / background.width, hScreen / background.height )
     background:scale( scale, scale )
     group:insert(background)
@@ -136,8 +136,7 @@ function scene:create( event )
         local function callBack( itemId )
             if itemId ~= nil then
                 if (itemId == "logout") then
-                    user_logged_out = true
-                    init_loading_screen('scenes.loginScreen', 1000)
+                    showDialog("LOGOUT", "Are you sure you want to logout?", 22, "logout")
                 else
                     composer.gotoScene( itemId, {effect = "crossFade", time = 100} )
                 end
@@ -184,27 +183,28 @@ function scene:create( event )
             },
         }
         local sidebar = uiLib.displaySlidingDialog(slidingMenuTable[1])
-        local fade = transition.to(line_logo_group, { time = 300, alpha = 0.1})
-
+        transition.to(line_logo_group, {time = 300, alpha = 0.1})
         if system.getInfo("platformName") == "Win" then
-            Runtime:addEventListener( "mouse", onMouseEvent )
+            Runtime:addEventListener("mouse", onMouseEvent)
         elseif (system.getInfo("platformName") == "Android") or (system.getInfo("platformName") == "WinPhone") then
-            Runtime:addEventListener( "touch", onTouch )
+            Runtime:addEventListener("tap", onTap)
         end
     end
+    group:insert(line_logo_group)
+    --group:insert(application_version)
 end
 
 onMouseEvent = function(event)
     if event.isPrimaryButtonDown then
-        local fade1 = transition.to(line_logo_group, { time = 300, alpha = 1})
-        local fade2 = transition.to(sidebar_group, { time = 350, alpha = 0})
-        Runtime:removeEventListener( "mouse", onMouseEvent )
+        transition.to(line_logo_group, {time = 300, alpha = 1})
+        transition.to(sidebar_group, {time = 350, alpha = 0})
+        Runtime:removeEventListener("mouse", onMouseEvent)
     end
 end
 
-onTouch = function( event )
-    local fade = transition.to(logo, { time = 300, alpha = 1})
-    Runtime:removeEventListener( "touch", onTouch )
+onTap = function(event)
+    transition.to(line_logo_group, {time = 300, alpha = 1})
+    Runtime:removeEventListener("tap", onTap)
 end
 
 function scene:show( event )
@@ -213,7 +213,6 @@ function scene:show( event )
     if ( phase == "will" ) then
         -- do nothing
     elseif ( phase == "did" ) then
-        application_version.isVisible = true
         logo_line.isVisible = true
         logo.isVisible = true
         line_logo_group.alpha = 1
@@ -226,7 +225,6 @@ function scene:hide( event )
     if ( phase == "will" ) then
         -- do nothing
     elseif ( phase == "did" ) then
-        application_version.isVisible = false
         logo_line.isVisible = false
         logo.isVisible = false
     end

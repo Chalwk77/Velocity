@@ -6,9 +6,11 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 local uiLib = require "plugin.braintonik-dialog"
 local widget = require("widget")
+local display_group = display.newGroup()
+local back_button
+local new_calander
+
 function scene:show( event )
-    local back_button
-    local new_calander
     if ( event.phase == "will" ) then
         local xScreen = display.contentCenterX - display.actualContentWidth / 2
         local wScreen = display.actualContentWidth
@@ -24,7 +26,7 @@ function scene:show( event )
         background:scale( scale, scale )
 
         local onClickDate
-        local function onCalendarButton()
+        local function onCalendarButton(event)
             onClickDate()
         end
         scene.calander = 0
@@ -54,7 +56,7 @@ function scene:show( event )
             if scene.calander > #calendarTable then
                 composer.gotoScene("scenes.menu")
             else
-                uiLib.displayCalendarDialog(calendarTable[1])
+                new_calander = uiLib.displayCalendarDialog(calendarTable[1])
             end
         end
         onClickDate()
@@ -68,7 +70,6 @@ function scene:show( event )
                 x = x * spacing + display.contentCenterX,
                 y = display.contentCenterX + y * spacing + height,
                 onRelease = function()
-                    back_button:removeSelf()
                     composer.gotoScene( "scenes.menu", {effect = "crossFade", time = 100})
                 end
             }
@@ -76,6 +77,14 @@ function scene:show( event )
         back_button:scale(0.070, 0.070)
     end
 end
+
+function scene:hide(event)
+    if (event.phase == "will") then
+        back_button:removeSelf()
+    end
+end
+
 scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
 
 return scene
