@@ -8,13 +8,10 @@ local users = {
 }
 
 function scene:create( event )
-
     local loginScreen = display.newGroup()
     local group = display.newGroup()
-
     local _W = display.viewableContentWidth
     local _H = display.viewableContentHeight
-
     local bottom_screen = display.screenOriginY + display.viewableContentHeight - display.screenOriginY
 
     local font = system.nativeFont
@@ -69,7 +66,6 @@ function scene:create( event )
     frmUsername.y = labelUsername.y + spacing
     frmUsername.text = ''
     frmUsername.placeholder = "Enter your username"
-
     loginScreen:insert(frmUsername)
     group:insert(frmUsername)
 
@@ -152,6 +148,7 @@ function scene:create( event )
     local function login_button_handler(event)
         handleInput()
     end
+
     local login_button = widget.newButton({
         id = "Login Button",
         left = 30,
@@ -173,11 +170,9 @@ function scene:create( event )
     group:insert(login_button)
 
     function handleInput()
-        showing_status = nil
         local userid = frmUsername.text
         local password = frmPassword.text
         if (userid == '' and password == '') then
-            print("both fields empty")
             labelReturnStatus.text = 'A username and password is required!'
         elseif (userid == '' and password ~= '') then
             labelReturnStatus.text = 'A username is required!'
@@ -204,9 +199,12 @@ function scene:show(event)
     local sceneGroup = self.view
     local phase = event.phase
     if (phase == "did") then
-        if (user_logged_out == true) then
-            user_logged_out = nil
+        if (user_logged_out ~= nil and user_logged_out == true) then
             scene:create()
+        elseif (user_logged_out ~= nil and user_logged_out == false) then
+            -- do nothing
+        else
+            -- do nothing
         end
     end
 end

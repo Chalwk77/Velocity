@@ -3,29 +3,23 @@
 -- (c) 2018, Velocity by Jericho Crosby <jericho.crosby227@gmail.com>
 -----------------------------------------------------------------------------------------
 local show_fps = false
-
 showFPS = function()
-
     local prevTime = 0
     local curTime = 0
     local dt = 0
     local fps = 50
     local mem = 0
-
     local xPos = display.contentCenterX
     local yPos = display.contentCenterX + display.contentCenterY - 90
-
     local underlay = display.newRect(0, 0, 300, 20, 12)
     underlay.x = xPos
     underlay.y = yPos
     underlay:setFillColor(0, 0, 0, 128)
-
     local displayInfo = display.newText("FPS: " .. fps .. " - Memory: ".. mem .. "mb", 0, 0, native.systemFontBold, 15 )
     displayInfo.x = xPos
     displayInfo.y = yPos
     displayInfo:setFillColor(255, 0, 0, 1)
     displayInfo.alpha = 1
-
     local function updateText()
         curTime = system.getTimer()
         dt = curTime - prevTime
@@ -37,7 +31,6 @@ showFPS = function()
         underlay:toFront()
         displayInfo:toFront()
     end
-
     Runtime:addEventListener("enterFrame", updateText)
 end
 

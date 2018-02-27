@@ -4,7 +4,7 @@
 -----------------------------------------------------------------------------------------
 local composer = require( "composer" )
 local widget = require("widget")
-local uiLib = require "plugin.braintonik-dialog"
+local uiLib = require("plugin.braintonik-dialog")
 local scene = composer.newScene()
 local logo
 local background
