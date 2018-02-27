@@ -1,6 +1,9 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
+local editing
+local absolute_coordinates
+local UIGroup
 local users = {
     ["Chalwk77"] = {"vm315", "Jericho"},
     ["Kourtney91"] = {"admin", "Kourtney"},
@@ -8,8 +11,10 @@ local users = {
 }
 
 function scene:create( event )
+    display.setDefault( "background", 0.5 )
     local loginScreen = display.newGroup()
     local group = display.newGroup()
+    UIGroup = display.newGroup()
     local _W = display.viewableContentWidth
     local _H = display.viewableContentHeight
     local bottom_screen = display.screenOriginY + display.viewableContentHeight - display.screenOriginY
@@ -25,7 +30,7 @@ function scene:create( event )
     local hScreen = display.actualContentHeight
 
     -- create menu background
-    background = display.newImage("images/backgrounds/background3.png" )
+    local background = display.newImage("images/backgrounds/background3.png" )
     background.x = display.contentWidth * 0.5
     background.y = display.contentHeight * 0.5
     local scale = math.max( wScreen / background.width, hScreen / background.height )
@@ -44,6 +49,32 @@ function scene:create( event )
     loginScreen:insert(labelHeadline)
     group:insert(labelHeadline)
 
+    local function textListener( event )
+        if system.getInfo("platformName") == "Android" then
+            if ( event.phase == "began" ) then
+                original_coords = UIGroup.y
+                transition.to( UIGroup, { time = 300, y = -100 } )
+            elseif (event.phase == "ended" or event.phase == "submitted") then
+                if editing == false then
+                    native.setKeyboardFocus(nil)
+                    transition.to(UIGroup, { time = 300, y = original_coords })
+                elseif editing == true then
+                    -- do nothing
+                end
+            end
+        end
+    end
+
+    local function focusListener( event )
+        if system.getInfo("platformName") == "Android" then
+            if editing == true then
+                original_coords = absolute_coordinates
+                transition.to(UIGroup, { time = 300, y = absolute_coordinates})
+            end
+        end
+    end
+    background:addEventListener( "touch", focusListener )
+
     local spacing = 30
     local seperator = 5
 
@@ -54,6 +85,8 @@ function scene:create( event )
     labelUsername.y = bottom_screen - 260
     loginScreen:insert(labelUsername)
     group:insert(labelUsername)
+    UIGroup:insert(labelUsername)
+    labelUsername:addEventListener( "userInput", textListener )
 
     -- username text field
     local frmUsername = native.newTextField(0, 0, _W * 0.8, 30)
@@ -68,6 +101,8 @@ function scene:create( event )
     frmUsername.placeholder = "Enter your username"
     loginScreen:insert(frmUsername)
     group:insert(frmUsername)
+    UIGroup:insert(frmUsername)
+    frmUsername:addEventListener( "userInput", textListener )
 
     -- password label
     local labelPassword = display.newText(loginScreen, "Password:", 0, 0, font, 18)
@@ -76,6 +111,9 @@ function scene:create( event )
     labelPassword.y = frmUsername.y + spacing + seperator
     loginScreen:insert(labelPassword)
     group:insert(labelPassword)
+    UIGroup:insert( labelPassword )
+    labelPassword:addEventListener( "userInput", textListener )
+
     -- password text field
     local frmPassword = native.newTextField(0, 0, _W * 0.8, 30)
     frmPassword:resizeHeightToFitFont()
@@ -90,6 +128,9 @@ function scene:create( event )
     frmPassword.placeholder = "Enter your Password"
     loginScreen:insert(frmPassword)
     group:insert(frmPassword)
+    UIGroup:insert(frmPassword)
+    absolute_coordinates = UIGroup.y
+    frmPassword:addEventListener( "userInput", textListener )
 
     local labelReturnStatus = display.newText(loginScreen, "", 0, 0, font, 14)
     labelReturnStatus.x = _W * 0.5 - 5
@@ -105,23 +146,31 @@ function scene:create( event )
     group:insert(copyright)
 
     function frmUsername:userInput(event)
-        if(event.phase == "began") then
+        if (event.phase == "began") then
+            editing = true
             labelReturnStatus.text = ''
         elseif(event.phase == "editing") then
         elseif(event.phase == "ended") then
+            editing = false
         elseif(event.phase == "submitted") then
             handleInput()
+            frmUsername.text = ''
+            frmPassword.text = ''
         end
     end
     frmUsername:addEventListener("userInput", frmUsername)
 
     function frmPassword:userInput(event)
-        if(event.phase == "began") then
+        if (event.phase == "began") then
+            editing = true
             labelReturnStatus.text = ''
         elseif(event.phase == "editing") then
         elseif(event.phase == "ended") then
+            editing = false
         elseif(event.phase == "submitted") then
             handleInput()
+            frmUsername.text = ''
+            frmPassword.text = ''
         end
     end
     frmPassword:addEventListener("userInput", frmPassword)
@@ -132,7 +181,9 @@ function scene:create( event )
             loginScreen:removeSelf()
         end
         group:removeSelf()
+        UIGroup:removeSelf()
         labelReturnStatus.text = 'Welcome back ' .. first_name
+        labelReturnStatus.size = 18
         labelReturnStatus.x = display.contentCenterX
         labelReturnStatus.y = display.contentCenterY
         labelReturnStatus:setTextColor(0, 255, 0)
@@ -147,6 +198,8 @@ function scene:create( event )
 
     local function login_button_handler(event)
         handleInput()
+        frmUsername.text = ''
+        frmPassword.text = ''
     end
 
     local login_button = widget.newButton({
@@ -168,6 +221,8 @@ function scene:create( event )
     })
     loginScreen:insert(login_button)
     group:insert(login_button)
+    UIGroup:insert(login_button)
+    login_button:addEventListener( "userInput", textListener )
 
     function handleInput()
         local userid = frmUsername.text
@@ -207,6 +262,7 @@ function scene:show(event)
     end
 end
 
+scene:addEventListener("hide", scene)
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 return scene

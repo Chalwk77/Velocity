@@ -60,11 +60,6 @@ function scene:create( event )
     menu_buttons[3] = { "CALANDER", "scenes.calendar"}
     menu_buttons[4] = { "EXIT"}
 
-    local function logout()
-        user_logged_out = true
-        init_loading_screen('scenes.loginScreen', 5000)
-    end
-
     local function createUIButton( parentGroup, name, x, y, w, h )
         local function buttonCallback(button_name)
             if button_name == "MENU" then
@@ -141,7 +136,8 @@ function scene:create( event )
         local function callBack( itemId )
             if itemId ~= nil then
                 if (itemId == "logout") then
-                    logout()
+                    user_logged_out = true
+                    init_loading_screen('scenes.loginScreen', 1000)
                 else
                     composer.gotoScene( itemId, {effect = "crossFade", time = 100} )
                 end
