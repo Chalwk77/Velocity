@@ -42,13 +42,24 @@ function scene:create( event )
     logo.y = display.contentCenterY - 230
     logo:scale(0.25, 0.25)
     group:insert(logo)
-
-    local labelHeadline = display.newText(loginScreen, "Please login to continue", 0, 0, native.systemFontBold, 18)
-    labelHeadline.x = _W * 0.5
-    labelHeadline.y = 70
-    loginScreen:insert(labelHeadline)
-    group:insert(labelHeadline)
-
+    local welcome_text = display.newImage("images/welcome.png")
+    welcome_text.x = display.contentCenterX
+    welcome_text.y = logo.y + 80
+    welcome_text.alpha = 0
+    welcome_text:scale(0.3, 0.4)
+    group:insert(welcome_text)
+    local alphaFrom = 0.25
+    local alphaTo = 1
+    local scaleFrom = 0.3
+    local scaleTo = 0.4
+    local animationTime = 450
+    local function animation_start( )
+        local scaleUp = function( )
+            anim_trans = transition.to( welcome_text, { time = animationTime, alpha = alphaFrom, xScale = scaleFrom, yScale = scaleFrom, onComplete = animation_start } )
+        end
+        anim_trans = transition.to( welcome_text, { time = animationTime, alpha = alphaTo, xScale = scaleTo, yScale = scaleTo, onComplete = scaleUp } )
+    end
+    animation_start( )
     local function textListener( event )
         if system.getInfo("platformName") == "Android" then
             if ( event.phase == "began" ) then
@@ -64,7 +75,6 @@ function scene:create( event )
             end
         end
     end
-
     local function focusListener( event )
         if system.getInfo("platformName") == "Android" then
             if editing == true then

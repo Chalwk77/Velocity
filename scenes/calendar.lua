@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------
--- calander.lua
+-- calendar.lua
 -- (c) 2018, Velocity by Jericho Crosby <jericho.crosby227@gmail.com>
 -----------------------------------------------------------------------------------------
 local composer = require( "composer" )
@@ -8,31 +8,35 @@ local uiLib = require "plugin.braintonik-dialog"
 local widget = require("widget")
 local display_group = display.newGroup()
 local back_button
-local new_calander
+local new_calendar
+local roster_text
+local stop_animation = nil
 
 function scene:show( event )
     if ( event.phase == "will" ) then
+        stop_animation = false
         local xScreen = display.contentCenterX - display.actualContentWidth / 2
         local wScreen = display.actualContentWidth
         local yScreen = display.contentCenterY - display.actualContentHeight / 2
         local hScreen = display.actualContentHeight + 100
-        display.remove( scene.calanderGroup )
-        scene.calanderGroup = display.newGroup()
-        self.view:insert( scene.calanderGroup )
-        local background = display.newImage( scene.calanderGroup, "images/backgrounds/background2.jpg" )
+        display.remove( scene.calendarGroup )
+        scene.calendarGroup = display.newGroup()
+        self.view:insert( scene.calendarGroup )
+        local background = display.newImage(scene.calendarGroup, "images/backgrounds/background2.jpg")
         background.x = display.contentWidth * 0.5
         background.y = display.contentHeight * 0.5
         local scale = math.max( wScreen / background.width, hScreen / background.height )
         background:scale( scale, scale )
-
         local onClickDate
         local function onCalendarButton(event)
-            onClickDate()
+            stop_animation = true
+            composer.gotoScene("scenes.menu")
         end
-        scene.calander = 0
+        local bool = 0
+        local height = -20
         local calendarTable = {
             {
-                group = scene.calanderGroup,
+                group = scene.calendarGroup,
                 hDialog = 310,
                 nextPreviousFont = native.systemFontBold,
                 overideBkInput = true,
@@ -45,18 +49,19 @@ function scene:show( event )
                 selectDays = "2017-05-18,2017-05-02,2017-4-19,2017-4-20,2017-4-21",
                 buttonHandler = onCalendarButton,
                 xScreen = xScreen,
-                yScreen = yScreen,
+                yScreen = yScreen + height,
                 wScreen = wScreen,
                 hScreen = hScreen,
             },
         }
         uiLib.addTransition( calendarTable[1], "RightToLeft" )
         onClickDate = function()
-            scene.calander = scene.calander + 1
-            if scene.calander > #calendarTable then
+            if bool == 0 then
+                bool = bool + 1
+                new_calendar = uiLib.displayCalendarDialog(calendarTable[1])
+            elseif (bool == 2) then
+                stop_animation = true
                 composer.gotoScene("scenes.menu")
-            else
-                new_calander = uiLib.displayCalendarDialog(calendarTable[1])
             end
         end
         onClickDate()
@@ -70,17 +75,36 @@ function scene:show( event )
                 x = x * spacing + display.contentCenterX,
                 y = display.contentCenterX + y * spacing + height,
                 onRelease = function()
-                    composer.gotoScene( "scenes.menu", {effect = "crossFade", time = 100})
+                    bool = bool + 1
+                    onClickDate()
                 end
             }
         )
         back_button:scale(0.070, 0.070)
+        roster_text = display.newText("ROSTER", 0, 0, native.systemFontBold, 32)
+        roster_text.x = display.contentCenterX
+        roster_text.y = display.contentCenterY - 200
+        roster_text.alpha = 0
+        from_xyScale = 0.5
+        to_xyScale = 1
+        roster_text:scale(from_xyScale, from_xyScale)
+        self.view:insert(roster_text)
+        local function animation_start( )
+            local scaleUp = function( )
+                if not stop_animation then
+                    anim_trans = transition.to( roster_text, { time = 700, alpha = 0.25, xScale = from_xyScale, yScale = from_xyScale, onComplete = animation_start } )
+                end
+            end
+            anim_trans = transition.to( roster_text, { time = 700, alpha = 1, xScale = to_xyScale, yScale = to_xyScale, onComplete = scaleUp } )
+        end
+        animation_start( )
     end
 end
 
 function scene:hide(event)
     if (event.phase == "will") then
         back_button:removeSelf()
+        roster_text:removeSelf()
     end
 end
 
