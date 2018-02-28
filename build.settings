@@ -5,12 +5,7 @@ settings =
     ['plugin.toast'] = {publisherId = 'com.spiralcodestudio'},
         ["plugin.braintonik-dialog"] = {publisherId = "com.braintonik"},
         ["plugin.notifications.v2"] = {publisherId = "com.coronalabs"},
---------------------------------------------------------------------------------------
-        ["plugin.tune"] = {publisherId = "com.tune", supportedPlatforms = { iphone=true, android=true }},
-        ["plugin.google.play.services"] = {publisherId = "com.coronalabs", supportedPlatforms = { android=true }},
-        ["shared.android.support.v4"] = {publisherId = "com.coronalabs", supportedPlatforms = { android=true }},
     },
---------------------------------------------------------------------------------------
   	excludeFiles =
   	{
   		-- Exclude unnecessary files for each platform
@@ -28,9 +23,6 @@ settings =
   		{
   			"android.permission.INTERNET",
         "android.permission.WRITE_EXTERNAL_STORAGE",
---------------------------------------------------------------------------------------
-        "android.permission.ACCESS_NETWORK_STATE",
---------------------------------------------------------------------------------------
   		},
   	},
     orientation =
