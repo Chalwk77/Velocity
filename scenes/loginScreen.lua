@@ -42,12 +42,14 @@ function scene:create( event )
     logo.y = display.contentCenterY - 230
     logo:scale(0.25, 0.25)
     group:insert(logo)
+
     local welcome_text = display.newImage("images/welcome.png")
     welcome_text.x = display.contentCenterX
     welcome_text.y = logo.y + 80
     welcome_text.alpha = 0
     welcome_text:scale(0.3, 0.4)
     group:insert(welcome_text)
+
     local alphaFrom = 0.25
     local alphaTo = 1
     local scaleFrom = 0.3

@@ -33,7 +33,8 @@ function showDialog(title, string, font_size, bool)
         if id == "YES" then
             user_logged_out = true
             background.isVisible = false
-            init_loading_screen('scenes.loginScreen', 4000)
+            init_loading_screen('scenes.loginScreen', 2500)
+            -- lol @ tina
         elseif id == "NO" then
             background.isVisible = false
         end
