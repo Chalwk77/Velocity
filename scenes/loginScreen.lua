@@ -55,33 +55,35 @@ function scene:create( event )
     local scaleFrom = 0.3
     local scaleTo = 0.4
     local animationTime = 450
-    local function animation_start( )
-        local scaleUp = function( )
+    local function animation_start()
+        local scaleUp = function()
             anim_trans = transition.to( welcome_text, { time = animationTime, alpha = alphaFrom, xScale = scaleFrom, yScale = scaleFrom, onComplete = animation_start } )
         end
         anim_trans = transition.to( welcome_text, { time = animationTime, alpha = alphaTo, xScale = scaleTo, yScale = scaleTo, onComplete = scaleUp } )
     end
-    animation_start( )
+    animation_start()
+
+    local slide_up_delay = 200
     local function textListener( event )
         if system.getInfo("platformName") == "Android" then
-            if ( event.phase == "began" ) then
+            if (event.phase == "began") then
                 original_coords = UIGroup.y
-                transition.to( UIGroup, { time = 300, y = -100 } )
+                transition.to( UIGroup, {time = slide_up_delay, y = -90})
             elseif (event.phase == "ended" or event.phase == "submitted") then
                 if editing == false then
                     native.setKeyboardFocus(nil)
-                    transition.to(UIGroup, { time = 300, y = original_coords })
+                    transition.to(UIGroup, {time = slide_up_delay, y = original_coords})
                 elseif editing == true then
                     -- do nothing
                 end
             end
         end
     end
-    local function focusListener( event )
+    local function focusListener(event)
         if system.getInfo("platformName") == "Android" then
             if editing == true then
                 original_coords = absolute_coordinates
-                transition.to(UIGroup, { time = 300, y = absolute_coordinates})
+                transition.to(UIGroup, {time = slide_up_delay, y = absolute_coordinates})
             end
         end
     end

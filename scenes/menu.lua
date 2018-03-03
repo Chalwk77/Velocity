@@ -5,12 +5,11 @@
 local composer = require( "composer" )
 local widget = require("widget")
 local uiLib = require("plugin.braintonik-dialog")
+local sidebar = require("modules.sidebar")
 local scene = composer.newScene()
 local logo
 local background
 local onMouseEvent
-local onTouch
-local sidebar_group
 local line_logo_group
 
 function scene:create( event )
@@ -53,7 +52,29 @@ function scene:create( event )
     logo_line:setStrokeColor(0.3, 0.1, 0.2, 1)
     logo_line.alpha = 1
     line_logo_group:insert(logo_line)
-
+    -------------- [CREATE SIDEBAR] --------------
+    sidebar_buttons = { }
+    sidebar_buttons[1] = {"images/messages.png", 34, 34, "Messages", "scenes.messages", 13}
+    sidebar_buttons[2] = {"images/settings.png", 34, 34, "Settings", "scenes.settings", 13}
+    sidebar_buttons[3] = {"images/notes.png", 34, 34, "Notes", "scenes.notes", 13}
+    sidebar_buttons[4] = {"images/jobs.png", 34, 34, "Jobs", "scenes.jobs", 13}
+    sidebar_buttons[5] = {"images/help.png", 34, 34, "Help", "scenes.help", 13}
+    sidebar_buttons[6] = {"images/buttons/logout.png", 100, 34, "", "scenes.loginScreen", 13}
+    local _W = display.contentWidth
+    local temp_group = display.newGroup()
+    local data = {}
+    data.icon = {}
+    data.iconWidth = {}
+    data.iconHeight = {}
+    data.label = {}
+    data.scene = {}
+    data.bg = "background.png"
+    for k, v in pairs(sidebar_buttons) do
+        table.insert(data.iconWidth, sidebar_buttons[k][2])
+        table.insert(data.iconHeight, sidebar_buttons[k][3])
+    end
+    temp_group:insert(sidebar:new(data))
+    ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     menu_buttons = { }
     menu_buttons[1] = { "MENU"}
     menu_buttons[2] = { "JOBS", "scenes.jobs"}
@@ -63,7 +84,7 @@ function scene:create( event )
     local function createUIButton( parentGroup, name, x, y, w, h )
         local function buttonCallback(button_name)
             if button_name == "MENU" then
-                scene:showSlidingMenu()
+                sidebar:show()
             elseif button_name == "EXIT" then
                 showDialog("CONFIRM EXIT", "Are you sure you want to exit?", 22)
             else
@@ -117,101 +138,23 @@ function scene:create( event )
         screen_contents = parentGroup
         local buttons = uiLib.newUIButton( options )
     end
-
     local height_from_bottom = 120
     local wButton = 120
     local xButton = xScreen + wScreen / 2 - wButton / 2
     local yButton = yScreen + height_from_bottom
     local hButton = 40
     local spacing = 10
-
     for k, v in pairs(menu_buttons) do
         createUIButton(group, v[1], xButton, yButton, wButton, hButton)
         yButton = yButton + hButton + spacing
     end
-
-    function scene:showSlidingMenu()
-        sidebar_group = display.newGroup()
-        self.view:insert( sidebar_group )
-        local function callBack( itemId )
-            if itemId ~= nil then
-                if (itemId == "logout") then
-                    showDialog("LOGOUT", "Are you sure you want to logout?", 22, "logout")
-                else
-                    composer.gotoScene( itemId, {effect = "crossFade", time = 100} )
-                end
-            end
-        end
-        local slidingMenuTable = {
-            {
-                appearsFrom = "left",
-                wDialog = 150,
-                parent = sidebar_group,
-                bkGradient = {
-                    type = "gradient",
-                    color1 = { 100 / 50, 20 / 255, 10 / 255, 0.1 },
-                    color2 = { 100 / 50, 245 / 100, 135 / 255, 0.5},
-                    direction = "down",
-                },
-                buttonHandler = callBack,
-                borderSize = 7,
-                itemListTextMarginPadding = 44,
-                itemListIconMarginPadding = 10,
-                itemListJustify = "left",
-                itemListcenterSpacing = 5,
-                itemListFont = native.systemFont,
-                itemListFontSize = 12,
-                itemList = {
-                    { iconFilename = "images/sidebar_logo.png", iconWidth = 96, iconHeight = 96, name = first_name, height = 142, justify = "center" },
-                    { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
-                    { iconFilename = "images/messages.png", iconWidth = 24, iconHeight = 24, name = "Messages", height = 50, id = "scenes.messages"},
-                    { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
-                    { iconFilename = "images/settings.png", iconWidth = 24, iconHeight = 24, name = "Settings", height = 50, id = "scenes.settings"},
-                    { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
-                    { iconFilename = "images/notes.png", iconWidth = 24, iconHeight = 24, name = "Notes", height = 50, id = "scenes.notes"},
-                    { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
-                    { iconFilename = "images/jobs.png", iconWidth = 24, iconHeight = 24, name = "Jobs", height = 50, id = "scenes.jobs"},
-                    { separator = true, height = 1, color = {0.7, 0.7, 0.7, 1}, width = 120, justify = "center" },
-                    { iconFilename = "images/help.png", iconWidth = 24, iconHeight = 24, name = "Help", height = 50, id = "scenes.help"},
-                    { iconFilename = "images/buttons/logout.png", iconWidth = 54, iconHeight = 32, height = 50, id = "logout"},
-
-                },
-                xScreen = xScreen,
-                yScreen = yScreen,
-                wScreen = wScreen,
-                hScreen = hScreen,
-            },
-        }
-        local sidebar = uiLib.displaySlidingDialog(slidingMenuTable[1])
-        transition.to(line_logo_group, {time = 300, alpha = 0.1})
-        if system.getInfo("platformName") == "Win" then
-            Runtime:addEventListener("mouse", onMouseEvent)
-        elseif (system.getInfo("platformName") == "Android") or (system.getInfo("platformName") == "WinPhone") then
-            Runtime:addEventListener("tap", onTap)
-        end
-    end
     group:insert(line_logo_group)
-    --group:insert(application_version)
-end
-
-onMouseEvent = function(event)
-    if event.isPrimaryButtonDown then
-        transition.to(line_logo_group, {time = 300, alpha = 1})
-        transition.to(sidebar_group, {time = 350, alpha = 0})
-        Runtime:removeEventListener("mouse", onMouseEvent)
-    end
-end
-
-onTap = function(event)
-    transition.to(line_logo_group, {time = 300, alpha = 1})
-    Runtime:removeEventListener("tap", onTap)
 end
 
 function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "will" ) then
-        -- do nothing
     elseif ( phase == "did" ) then
         logo_line.isVisible = true
         logo.isVisible = true
