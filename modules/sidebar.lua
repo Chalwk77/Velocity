@@ -18,40 +18,36 @@ local screenW = (display.contentWidth - display.screenOriginX) - (display.screen
 
 function sidebar:new(params)
     button_group = display.newGroup()
-    local params = params or {}
-    local bg = params.bg or nil
     local background
     local logo
     local count = 0
-    if bg then
-        local bg_options = {
-            type = "gradient",
-            color1 = { 100 / 50, 20 / 255, 10 / 255, 0.1 },
-            color2 = { 100 / 50, 245 / 100, 135 / 255, 0.5},
-            border_color = {1, 0.1, 0.1, 0.3},
-            border_effect = "composite.average",
-            direction = "down",
-            borderSize = 7
-        }
-        background = display.newRect(group, xScreen, wScreen, yScreen, hScreen)
-        background.fill = bg_options
-        -- position on screen
-        background.x = display.contentCenterX - 88
-        background.y = display.contentCenterY
-        -- width and height
-        background.width = 160
-        background.height = hScreen + 5
-        background.stroke = bg_options.border_color
-        background.strokeWidth = bg_options.borderSize
-        background.fill.effect = "filter.colorPolynomial"
-        background.fill.effect.coefficients = 
-        {
-            0, 0, 1, 0, --red coefficients
-            0, 0, 1, 0, --green coefficients
-            0, 1, 0.5, 0, --blue coefficients
-            0.5, 1, 0, 1 --alpha coefficients
-        }
-    end
+    local bg_options = {
+        type = "gradient",
+        color1 = { 100 / 50, 20 / 255, 10 / 255, 0.1 },
+        color2 = { 100 / 50, 245 / 100, 135 / 255, 0.5},
+        border_color = {1, 0.1, 0.1, 0.3},
+        border_effect = "composite.average",
+        direction = "down",
+        borderSize = 7
+    }
+    background = display.newRect(group, xScreen, wScreen, yScreen, hScreen)
+    background.fill = bg_options
+    -- bg position on screen
+    background.x = display.contentCenterX - 88
+    background.y = display.contentCenterY
+    -- bg width and height
+    background.width = 160
+    background.height = hScreen + 5
+    background.stroke = bg_options.border_color
+    background.strokeWidth = bg_options.borderSize
+    background.fill.effect = "filter.colorPolynomial"
+    background.fill.effect.coefficients = 
+    {
+        0, 0, 1, 0, --red
+        0, 0, 1, 0, --green
+        0, 1, 0.5, 0, --blue
+        0.5, 1, 0, 1 --alpha
+    }
 
     logo = display.newImage(group, "images/sidebar_logo.png" )
     logo.x = background.x
@@ -72,6 +68,7 @@ function sidebar:new(params)
             font = native.systemFontBold,
             labelColor = {default = {0.5, 0.1, 0.5}, over = {255, 255, 255}},
             onRelease = function()
+                print(button_id)
                 if (button_id == "scenes.loginScreen") then
                     showDialog("LOGOUT", "Are you sure you want to logout?", 22, "logout")
                     sidebar:hide()
@@ -91,11 +88,8 @@ function sidebar:new(params)
         end
         button_image.x = buttons.x - 155
         button_image.y = button_image.y + buttons.y
-        if count ~= #sidebar_buttons then
-            draw_seperator(buttons.x, buttons.y)
-        end
+        if count ~= #sidebar_buttons then draw_seperator(buttons.x, buttons.y) end
         button_group:insert(buttons)
-        button_group:addEventListener("mouse", onMousePressed)
         temp_group = button_group.x
     end
     group.y = 0
@@ -107,6 +101,9 @@ function sidebar:new(params)
     local height_from_bottom = -15
     draw_seperator(username_label.x + 110, username_label.y + height_from_bottom, 255, 0, 255)
     sidebar:hide()
+    -- set initial visibility to 'hidden'
+    group.isVisible = false
+    button_group.isVisible = false
     return group
 end
 
@@ -117,6 +114,8 @@ function sidebar:hide()
 end
 
 function sidebar:show()
+    group.isVisible = true
+    button_group.isVisible = true
     sidebar_open = true
     transition.to(group, {time = 200, alpha = 1, x = 0, y = group.y})
     transition.to(button_group, {time = 200, alpha = 1, y = group.y, x = temp_group})
@@ -132,14 +131,6 @@ function draw_seperator(x, y, r, g, b)
     end
     seperator.x = x - 170
     seperator.y = y + 25
-end
-
-function onMousePressed(event)
-    if event.isPrimaryButtonDown then
-        if sidebar_open == true then
-            sidebar:hide()
-        end
-    end
 end
 
 return sidebar

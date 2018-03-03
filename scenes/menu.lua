@@ -60,20 +60,7 @@ function scene:create( event )
     sidebar_buttons[4] = {"images/jobs.png", 34, 34, "Jobs", "scenes.jobs", 13}
     sidebar_buttons[5] = {"images/help.png", 34, 34, "Help", "scenes.help", 13}
     sidebar_buttons[6] = {"images/buttons/logout.png", 100, 34, "", "scenes.loginScreen", 13}
-    local _W = display.contentWidth
-    local temp_group = display.newGroup()
-    local data = {}
-    data.icon = {}
-    data.iconWidth = {}
-    data.iconHeight = {}
-    data.label = {}
-    data.scene = {}
-    data.bg = "background.png"
-    for k, v in pairs(sidebar_buttons) do
-        table.insert(data.iconWidth, sidebar_buttons[k][2])
-        table.insert(data.iconHeight, sidebar_buttons[k][3])
-    end
-    temp_group:insert(sidebar:new(data))
+    sidebar:new()
     ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     menu_buttons = { }
     menu_buttons[1] = { "MENU"}
