@@ -50,5 +50,5 @@ init_loading_screen = function(scene_name, delay)
     end)
 end
 
---composer.gotoScene( "scenes.menu" )
-composer.gotoScene( "scenes.loginScreen" )
+composer.gotoScene( "scenes.menu" )
+--composer.gotoScene( "scenes.loginScreen" )

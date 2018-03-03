@@ -22,6 +22,8 @@ function scene:create( event )
     local wScreen = display.actualContentWidth
     local yScreen = display.contentCenterY - display.actualContentHeight / 2
     local hScreen = display.actualContentHeight
+    local centerX = display.contentCenterX
+    local centerY = display.contentCenterY
 
     -- create menu background
     background = display.newImage( group, "images/backgrounds/background1.png" )
@@ -62,78 +64,36 @@ function scene:create( event )
     sidebar_buttons[6] = {"images/buttons/logout.png", 100, 34, "", "scenes.loginScreen", 13}
     sidebar:new()
     ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    menu_buttons = { }
-    menu_buttons[1] = { "MENU"}
-    menu_buttons[2] = { "JOBS", "scenes.jobs"}
-    menu_buttons[3] = { "CALANDER", "scenes.calendar"}
-    menu_buttons[4] = { "EXIT"}
 
-    local function createUIButton( parentGroup, name, x, y, w, h )
-        local function buttonCallback(button_name)
-            if button_name == "MENU" then
-                sidebar:show()
-            elseif button_name == "EXIT" then
-                showDialog("CONFIRM EXIT", "Are you sure you want to exit?", 22)
-            else
-                for k, v in pairs(menu_buttons) do
-                    if string.find(menu_buttons[k][1], button_name) then
-                        composer.gotoScene(menu_buttons[k][2])
-                    end
-                end
-            end
+    local function buttonCallback(event)
+        local sceneID = event.target.id
+        local options = {effect = "crossFade", time = 200, params = {title = event.target.id}}
+        if sceneID == "exit" then
+            showDialog("CONFIRM EXIT", "Are you sure you want to exit?", 22)
+        elseif sceneID == "menu" then
+            sidebar:show()
+        else
+            composer.gotoScene( sceneID, options )
         end
-        local options = {
-            id = name,
-            group = parentGroup,
-            callBack = buttonCallback,
-            x = x,
-            y = y + 150,
-            w = w,
-            h = h,
-            align = "center",
-            alignLeftRightMargin = 20,
-            spaceBetweenIconAndText = 10,
-            shapeBkGradientColor = {
-                type = "gradient",
-                color1 = { 0.3, 0.8, 0.9 },
-                color2 = { 0.9, 0.9, 0.9 },
-                direction = "up"
-            },
-            shape = "roundedRect",
-            shapeCornerRadius = 22,
-            shapeBorder = 5,
-            shapeBorderColor = { 0.4, 0.4, 0.4 },
-            shapeBkSelColor = { 38 / 255, 160 / 255, 218 / 255, 1 },
-            shapeSelBorderColor = { 1, 1, 1, 1 },
-            shadowTable = {
-                width = 6,
-                gradientColor = {
-                    type = "gradient",
-                    color1 = { 0.7, 0.7, 0.7 },
-                    color2 = {0.9, 0.9, 0.9 },
-                    direction = "down"
-                },
-            },
-            textTable = {
-                text = name,
-                fontSize = 14,
-                fontType = native.systemFontBold,
-                color = { 0.3, 0.3, 0.3 },
-                selectedColor = { 0.9, 0.9, 1, 1 },
-            },
-        }
-        screen_contents = parentGroup
-        local buttons = uiLib.newUIButton( options )
     end
-    local height_from_bottom = 120
-    local wButton = 120
-    local xButton = xScreen + wScreen / 2 - wButton / 2
-    local yButton = yScreen + height_from_bottom
-    local hButton = 40
-    local spacing = 10
+
+    menu_buttons = {}
+    --                 label, id, x,y, width, height, label-size
+    local spacing = 50
+    menu_buttons[1] = {"menu", "menu", centerX, centerX + centerY - 175, 100, 25, 45}
+    menu_buttons[2] = {"exit", "exit", centerX, centerX + centerY - 175 + spacing, 100, 25, 45}
     for k, v in pairs(menu_buttons) do
-        createUIButton(group, v[1], xButton, yButton, wButton, hButton)
-        yButton = yButton + hButton + spacing
+        local new_button = widget.newButton ({
+            label = menu_buttons[k][1],
+            id = menu_buttons[k][2],
+            labelColor = {default = {255, 0, 0}, over = {255, 255, 255}},
+            onRelease = buttonCallback
+        })
+        new_button.x = menu_buttons[k][3]
+        new_button.y = menu_buttons[k][4]
+        new_button.width = menu_buttons[k][5]
+        new_button.height = menu_buttons[k][6]
+        new_button._view._label.size = menu_buttons[k][7]
     end
     group:insert(line_logo_group)
 end
