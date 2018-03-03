@@ -80,13 +80,15 @@ function scene:create( event )
     menu_buttons = {}
     --                 label, id, x,y, width, height, label-size
     local spacing = 50
-    menu_buttons[1] = {"menu", "menu", centerX, centerX + centerY - 175, 100, 25, 45}
-    menu_buttons[2] = {"exit", "exit", centerX, centerX + centerY - 175 + spacing, 100, 25, 45}
+    menu_buttons[1] = {"MENU", "menu", centerX, centerX + centerY - 175, 100, 25, 45}
+    menu_buttons[2] = {"JOBS", "scenes.jobs", centerX, centerX + centerY - 175 + spacing, 100, 25, 45}
+    menu_buttons[3] = {"CALENDER", "scenes.calender", centerX, centerX + centerY - 175 + spacing + spacing, 100, 25, 45}
+    menu_buttons[4] = {"EXIT", "exit", centerX, centerX + centerY - 175 + spacing + spacing + spacing, 100, 25, 45}
     for k, v in pairs(menu_buttons) do
         local new_button = widget.newButton ({
             label = menu_buttons[k][1],
             id = menu_buttons[k][2],
-            labelColor = {default = {255, 0, 0}, over = {255, 255, 255}},
+            labelColor = {default = {10 / 255, 110 / 255, 0 / 255}, over = {50 / 255, 180 / 255, 255 / 255}},
             onRelease = buttonCallback
         })
         new_button.x = menu_buttons[k][3]
