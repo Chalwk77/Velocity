@@ -20,7 +20,7 @@ end
 
 local function setUpDisplay(group)
     -- Help Scene background
-    local background = display.newImageRect(group, "images/backgrounds/background1.png", display.contentWidth + 550, display.contentHeight + 1000)
+    local background = display.newImageRect(group, "images/backgrounds/background4.png", display.contentWidth + 550, display.contentHeight + 1000)
     background.alpha = 1
     group:insert(background)
     local x, y = -2, 0
@@ -78,7 +78,7 @@ local function setUpDisplay(group)
         paragraphs[#paragraphs].anchorY = 0
         paragraphs[#paragraphs].x = 10
         paragraphs[#paragraphs].y = yOffset
-        paragraphs[#paragraphs]:setFillColor(color_table.RGB("white"), 1)
+        paragraphs[#paragraphs]:setFillColor(color_table.color("white"), 1)
         paragraphs[#paragraphs].alpha = 1
         info = paragraphs[#paragraphs]
         yOffset = yOffset + paragraphs[#paragraphs].height
@@ -89,7 +89,7 @@ local function setUpDisplay(group)
     local yPos = screenBottom - 10
     copyright.x = xPos + 120
     copyright.y = yPos
-    copyright:setFillColor( color_table.RGB("white"), 1)
+    copyright:setFillColor( color_table.color("white"), 1)
     copyright.alpha = 1
 end
 

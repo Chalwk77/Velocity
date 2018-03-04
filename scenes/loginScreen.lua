@@ -158,7 +158,7 @@ function scene:create( event )
     local copyright = display.newText("© 2018, Velocity, Jericho Crosby <jericho.crosby227@gmail.com>", 0, 0, native.systemFontBold, 9 )
     copyright.x = display.contentCenterX
     copyright.y = display.screenOriginY + display.viewableContentHeight - display.screenOriginY + 15
-    copyright:setFillColor( color_table.RGB("white"), 1)
+    copyright:setFillColor( color_table.color("white"), 1)
     copyright.alpha = 1
     loginScreen:insert(copyright)
     group:insert(copyright)

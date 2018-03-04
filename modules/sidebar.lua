@@ -23,12 +23,12 @@ local screenW = (display.contentWidth - display.screenOriginX) - (display.screen
 
 -------------- [CREATE SIDEBAR] --------------
 sidebar_buttons = { }
-sidebar_buttons[1] = {"images/messages.png", 34, 34, "Messages", "scenes.messages", 13}
-sidebar_buttons[2] = {"images/settings.png", 34, 34, "Settings", "scenes.settings", 13}
-sidebar_buttons[3] = {"images/notes.png", 34, 34, "Notes", "scenes.notes", 13}
-sidebar_buttons[4] = {"images/jobs.png", 34, 34, "Jobs", "scenes.jobs", 13}
-sidebar_buttons[5] = {"images/help.png", 34, 34, "Help", "scenes.help", 13}
-sidebar_buttons[6] = {"images/buttons/logout.png", 34, 34, "Logout", "scenes.loginScreen", 15}
+sidebar_buttons[1] = {"images/messages.png", 34, 34, "Messages", "scenes.messages", 16}
+sidebar_buttons[2] = {"images/settings.png", 34, 34, "Settings", "scenes.settings", 16}
+sidebar_buttons[3] = {"images/notes.png", 34, 34, "Notes", "scenes.notes", 16}
+sidebar_buttons[4] = {"images/jobs.png", 34, 34, "Jobs", "scenes.jobs", 16}
+sidebar_buttons[5] = {"images/help.png", 34, 34, "Help", "scenes.help", 16}
+sidebar_buttons[6] = {"images/buttons/logout.png", 34, 34, "Logout", "scenes.loginScreen", 16}
 
 function sidebar:new(params)
     button_group = display.newGroup()
@@ -95,7 +95,7 @@ function sidebar:new(params)
         buttons._view._hasAlphaFade = false
         buttons._view._label.size = sidebar_buttons[k][6]
         buttons.x = background.x + 110
-        button_group.x = background.x - 160
+        button_group.x = background.x - 150
         buttons.y = button_group.height + buttons.height + spacing
         if (button_id == "scenes.loginScreen") then
             buttons.x = buttons.x
@@ -124,7 +124,6 @@ function sidebar:new(params)
     button_group.isVisible = false
     return group
 end
-
 
 function image_touch_listener(event)
     if (event.phase == "ended") then

@@ -80,7 +80,7 @@ function scene:create( event )
     local spacing = 50
     local b_width = 135
     local b_height = 34
-    local b_fontsize = 45
+    local b_fontsize = 40
     buttons[1] = {"MENU", "menu", centerX, centerX + centerY - 175, b_width, b_height, b_fontsize}
     buttons[2] = {"JOBS", "scenes.jobs", centerX, centerX + centerY - 175 + (spacing), b_width, b_height, b_fontsize}
     buttons[3] = {"CALENDAR", "scenes.calendar", centerX, centerX + centerY - 175 + (spacing * 2), b_width, b_height, b_fontsize}
@@ -90,15 +90,15 @@ function scene:create( event )
             label = buttons[k][1],
             id = buttons[k][2],
             emboss = false,
+            labelColor = {default = {color_table.color("indigo")}, over = {color_table.color("white")}},
             shape = "roundedRect",
             width = 250,
             height = 50,
             cornerRadius = 20,
             labelYOffset = 0,
-            fillColor = {default = {color_table.RGB("darkpurple")}, over = {color_table.RGB("violet")}},
-            strokeColor = {default = {color_table.RGB("white")}, over = {color_table.RGB("purple")}},
+            fillColor = {default = {color_table.color("skyblue")}, over = {color_table.color("skyblue2")}},
+            strokeColor = {default = {color_table.color("lavenderblush")}, over = {color_table.color("lawngreen")}},
             strokeWidth = 7,
-            labelColor = {default = {color_table.RGB("indigo")}, over = {color_table.RGB("white")}},
         onRelease = buttonCallback}
         menu_button.x = buttons[k][3]
         menu_button.y = buttons[k][4]
@@ -106,6 +106,9 @@ function scene:create( event )
         menu_button.height = buttons[k][6]
         menu_button._view._label.size = buttons[k][7]
         button_group:insert(menu_button)
+        button_group:insert(application_version)
+        absoluteX = button_group.x
+        absoluteY = button_group.y
     end
 end
 
@@ -113,7 +116,7 @@ hideUI = function(bool)
     local transparency = 0.050
     if bool == false then
         transition.to(line_logo_group, {time = 300, alpha = transparency})
-        transition.to(button_group, {time = 300, alpha = transparency})
+        transition.to(button_group, {time = 300, alpha = transparency, x = button_group.x, y = button_group.y + hScreen})
     elseif bool == true then
         transition.to(line_logo_group, {time = 300, alpha = 0})
         transition.to(button_group, {time = 300, alpha = 0})
@@ -126,12 +129,16 @@ end
 showUI = function(bool)
     local transparency = 1
     if bool == false then
+        print("showing == false")
         transition.to(line_logo_group, {time = 300, alpha = transparency})
         transition.to(button_group, {time = 300, alpha = transparency})
+        transition.to(button_group, {time = 200, alpha = transparency, x = absoluteX, y = absoluteY})
     elseif bool == true then
+        print("showing == true")
         transition.to(line_logo_group, {time = 300, alpha = 0})
         transition.to(button_group, {time = 300, alpha = 0})
     elseif bool == nil then
+        print("showing == nil")
         transition.to(line_logo_group, {time = 300, alpha = transparency})
         transition.to(button_group, {time = 300, alpha = transparency})
     end

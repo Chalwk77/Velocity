@@ -3,11 +3,11 @@
 -- (c) 2018, Velocity by Jericho Crosby <jericho.crosby227@gmail.com>
 -----------------------------------------------------------------------------------------
 color_table = {
-    health1 = {0 / 255, 255 / 255, 0 / 255},
-    health2 = {102 / 255, 204 / 255, 0 / 255},
-    health3 = {204 / 255, 204 / 255, 0 / 255},
-    health4 = {204 / 255, 102 / 255, 0 / 255},
-    health5 = {255 / 255, 0 / 255, 0 / 255},
+    health1 = {0, 255, 0},
+    health2 = {102, 204, 0},
+    health3 = {204, 204, 0},
+    health4 = {204, 102, 0},
+    health5 = {255, 0, 0},
     aliceblue = {240, 248, 255},
     antiquewhite = {250, 235, 215},
     aqua = { 0, 255, 255},
@@ -17,7 +17,7 @@ color_table = {
     bisque = {255, 228, 196},
     black = { 0, 0, 0},
     blanchedalmond = {255, 235, 205},
-    blue = {50 / 255, 180 / 255, 255 / 255},
+    blue = {50, 180, 255},
     blueviolet = {138, 43, 226},
     brown = {165, 42, 42},
     burlywood = {222, 184, 135},
@@ -42,7 +42,7 @@ color_table = {
     darkorchid = {153, 50, 204},
     darkred = {139, 0, 0},
     darksalmon = {233, 150, 122},
-    darkpurple = {70 / 255, 50 / 255, 95 / 255},
+    darkpurple = {70, 50, 95},
     darkseagreen = {143, 188, 143},
     darkslateblue = { 72, 61, 139},
     darkslategray = { 47, 79, 79},
@@ -64,16 +64,16 @@ color_table = {
     goldenrod = {218, 165, 32},
     gray = {128, 128, 128},
     grey = {128, 128, 128},
-    green = {10 / 255, 110 / 255, 0 / 255},
+    green = {10, 110, 0},
     greenyellow = {173, 255, 47},
     honeydew = {240, 255, 240},
     hotpink = {255, 105, 180},
     indianred = {205, 92, 92},
-    indigo = {70 / 255, 16 / 255, 95 / 255},
+    indigo = {70, 16, 95},
     ivory = {255, 255, 240},
     khaki = {240, 230, 140},
     lavender = {230, 230, 250},
-    lavenderblush = {255, 240, 245},
+    lavenderblush = {50, 60, 120},
     lawngreen = {124, 252, 0},
     lemonchiffon = {255, 250, 205},
     lightblue = {173, 216, 230},
@@ -114,7 +114,7 @@ color_table = {
     oldlace = {253, 245, 230},
     olive = {128, 128, 0},
     olivedrab = {107, 142, 35},
-    orange = {230 / 255, 130 / 255, 50 / 255},
+    orange = {230, 130, 50},
     orangered = {255, 69, 0},
     orchid = {218, 112, 214},
     palegoldenrod = {238, 232, 170},
@@ -124,11 +124,11 @@ color_table = {
     papayawhip = {255, 239, 213},
     peachpuff = {255, 218, 185},
     peru = {205, 133, 63},
-    pink = {200 / 255, 100 / 255, 160 / 255},
+    pink = {200, 100, 160},
     plum = {221, 160, 221},
     powderblue = {176, 224, 230},
-    purple = {100 / 255, 25 / 255, 120 / 255},
-    red = {180 / 255, 30 / 255, 0 / 255},
+    purple = {100, 25, 120},
+    red = {180, 30, 0},
     rosybrown = {188, 143, 143},
     royalblue = { 65, 105, 225},
     saddlebrown = {139, 69, 19},
@@ -138,7 +138,8 @@ color_table = {
     seashell = {255, 245, 238},
     sienna = {160, 82, 45},
     silver = {192, 192, 192},
-    skyblue = {135, 206, 235},
+    skyblue = {135, 206, 210},
+    skyblue2 = {100, 170, 210},
     slateblue = {106, 90, 205},
     slategray = {112, 128, 144},
     slategrey = {112, 128, 144},
@@ -150,26 +151,14 @@ color_table = {
     thistle = {216, 191, 216},
     tomato = {255, 99, 71},
     turquoise = {64, 224, 208},
-    violet = {200 / 255, 0 / 255, 179 / 255},
+    violet = {200, 0, 179},
     wheat = {245, 222, 179},
     white = {255, 255, 255},
     whitesmoke = {245, 245, 245},
-    yellow = {220 / 255, 220 / 255, 0 / 255},
+    yellow = {220, 220, 0},
     yellowgreen = {154, 205, 50}
 }
 
-color_table.R = function (name)
-    return color_table[name][1]
-end
-
-color_table.G = function (name)
-    return color_table[name][2]
-end
-
-color_table.B = function (name)
-    return color_table[name][3]
-end
-
-color_table.RGB = function (name)
-    return color_table[name][1], color_table[name][2], color_table[name][3]
+color_table.color = function (color_name)
+    return color_table[color_name][1] / 255, color_table[color_name][2] / 255, color_table[color_name][3] / 255
 end
