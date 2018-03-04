@@ -46,7 +46,9 @@ function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "will" ) then
-
+        -- scene begin
+    elseif ( phase == "did" ) then
+        -- scene end
     end
 end
 

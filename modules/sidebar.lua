@@ -6,9 +6,9 @@ local composer = require('composer')
 local widget = require("widget")
 local sidebar = {}
 local group = display.newGroup()
-local button_group
-local temp_group
+-- local sidebar_button_group
 local buttons
+local xOrigin
 
 local xScreen = display.contentCenterX - display.actualContentWidth / 2
 local wScreen = display.actualContentWidth
@@ -30,11 +30,10 @@ sidebar_buttons[4] = {"images/jobs.png", 34, 34, "Jobs", "scenes.jobs", 16}
 sidebar_buttons[5] = {"images/help.png", 34, 34, "Help", "scenes.help", 16}
 sidebar_buttons[6] = {"images/buttons/logout.png", 34, 34, "Logout", "scenes.loginScreen", 16}
 
-function sidebar:new(params)
-    button_group = display.newGroup()
-    local background
-    local logo
+function sidebar:new()
+    sidebar_button_group = display.newGroup()
     local count = 0
+    local sidebar_logo
     local bg_options = {
         type = "gradient",
         color1 = { 100 / 50, 20 / 255, 10 / 255, 0.1 },
@@ -44,28 +43,33 @@ function sidebar:new(params)
         direction = "down",
         borderSize = 7
     }
-    background = display.newRect(group, xScreen, wScreen, yScreen, hScreen)
-    background.fill = bg_options
+    sidebar_background = display.newRect(group, xScreen, wScreen, yScreen, hScreen)
+    sidebar_background.fill = bg_options
     -- bg position on screen
-    background.x = display.contentCenterX - 88
-    background.y = display.contentCenterY
+    sidebar_background.x = display.contentCenterX - 88
+    sidebar_background.y = display.contentCenterY
     -- bg width and height
-    background.width = 160
-    background.height = hScreen + 5
-    background.stroke = bg_options.border_color
-    background.strokeWidth = bg_options.borderSize
-    background.fill.effect = "filter.colorPolynomial"
-    background.fill.effect.coefficients = 
+    sidebar_background.width = 160
+    sidebar_background.height = hScreen + 5
+    sidebar_background.stroke = bg_options.border_color
+    sidebar_background.strokeWidth = bg_options.borderSize
+    sidebar_background.fill.effect = "filter.colorPolynomial"
+    sidebar_background.fill.effect.coefficients = 
     {
         0, 0, 1, 0, --red
         0, 0, 1, 0, --green
         0, 1, 0.5, 0, --blue
         0.5, 1, 0, 1 --alpha
     }
-    logo = display.newImage(group, "images/sidebar_logo.png" )
-    logo.x = background.x
-    logo.y = background.y - 220
-    logo:scale(0.2, 0.2)
+    -- if first_name ~= nil and first_name ~= "ERROR" then
+    sidebar_logo = display.newImage(group, "images/sidebar_logo.png" )
+    sidebar_logo.x = sidebar_background.x
+    sidebar_logo.y = sidebar_background.y - 220
+    sidebar_logo:scale(0.3, 0.3)
+    -- else
+    --     sidebar_logo.x = sidebar_background.x
+    --     sidebar_logo.y = sidebar_background.y - 220
+    -- end
     local function buttonCallback(event)
         local sceneID = event.target.id
         if sceneID == "scenes.loginScreen" then
@@ -94,9 +98,9 @@ function sidebar:new(params)
         buttons:setFillColor( 0, 0, 0, 0)
         buttons._view._hasAlphaFade = false
         buttons._view._label.size = sidebar_buttons[k][6]
-        buttons.x = background.x + 110
-        button_group.x = background.x - 150
-        buttons.y = button_group.height + buttons.height + spacing
+        buttons.x = sidebar_background.x + 110
+        sidebar_button_group.x = sidebar_background.x - 150
+        buttons.y = sidebar_button_group.height + buttons.height + spacing
         if (button_id == "scenes.loginScreen") then
             buttons.x = buttons.x
             buttons.y = buttons.y + 25
@@ -105,23 +109,23 @@ function sidebar:new(params)
         button_image.x = buttons.x - 155
         button_image.y = button_image.y + buttons.y
         if count ~= #sidebar_buttons then draw_seperator(buttons.x, buttons.y) end
-        button_group:insert(buttons)
-        temp_group = button_group.x
+        sidebar_button_group:insert(buttons)
+        xOrigin = sidebar_button_group.x
         button_image.id = button_id
         button_image:addEventListener("touch", image_touch_listener)
     end
     group.y = 0
     group.x = 0
-    local username_label = display.newText(group, "username", 0, 0, native.systemFont, 13)
+    if first_name ~= nil then first_name = first_name else first_name = "ERROR" end
+    local username_label = display.newText(group, first_name, 0, 0, native.systemFont, 13)
     username_label:setTextColor(180, 180, 180)
-    username_label.x = logo.x
-    username_label.y = logo.y + 40
+    username_label.x = sidebar_logo.x
+    username_label.y = sidebar_logo.y + 55
     local height_from_bottom = -15
     draw_seperator(username_label.x + 110, username_label.y + height_from_bottom, 255, 0, 255)
     sidebar:hide()
-    -- set initial visibility to 'hidden'
     group.isVisible = false
-    button_group.isVisible = false
+    sidebar_button_group.isVisible = false
     return group
 end
 
@@ -141,9 +145,9 @@ end
 function sidebar:show()
     sidebar_open = true
     group.isVisible = true
-    button_group.isVisible = true
+    sidebar_button_group.isVisible = true
     transition.to(group, {time = 200, alpha = 1, x = 0, y = group.y})
-    transition.to(button_group, {time = 200, alpha = 1, y = group.y, x = temp_group})
+    transition.to(sidebar_button_group, {time = 200, alpha = 1, y = group.y, x = xOrigin})
     timer.performWithDelay(0, background_listener)
 end
 
@@ -163,7 +167,7 @@ end
 function sidebar:hide()
     sidebar_open = false
     transition.to(group, {time = 200, alpha = 0, x = - group.width, y = group.y})
-    transition.to(button_group, {time = 200, alpha = 0, x = - group.width})
+    transition.to(sidebar_button_group, {time = 200, alpha = 0, x = - group.width})
 end
 
 function draw_seperator(x, y, r, g, b)
