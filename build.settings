@@ -2,9 +2,7 @@ settings =
 {
     plugins =
     {
-    ['plugin.toast'] = {publisherId = 'com.spiralcodestudio'},
-    ["plugin.notifications.v2"] = {publisherId = "com.coronalabs"},
-    ["plugin.braintonik-dialog"] = {publisherId = "com.braintonik"},
+  		["plugin.braintonik-dialog"] = {publisherId = "com.braintonik"},
     },
   	excludeFiles =
   	{
@@ -13,21 +11,17 @@ settings =
   		android = { "LaunchScreen.storyboardc", },
   	},
     window = {
-  			defaultMode = 'normal',
-  			titleText = {default = 'Velocity'}
+  		defaultMode = 'normal',
+  		titleText = {default = 'Velocity'}
   	},
     android =
   	{
-      installLocation = 'auto',
-  		usesPermissions =
-  		{
-  			"android.permission.INTERNET",
-        "android.permission.WRITE_EXTERNAL_STORAGE",
-  		},
+  		installLocation = 'auto',
+  		usesPermissions = {"android.permission.INTERNET", "android.permission.WRITE_EXTERNAL_STORAGE",},
   	},
     orientation =
   	{
   		default = "portrait",
-  		supported = { "portrait"},
+  		supported = {"portrait"},
   	},
 }
