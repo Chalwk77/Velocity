@@ -110,7 +110,7 @@ function scene:create( event )
 end
 
 hideUI = function(bool)
-    local transparency = 0.2
+    local transparency = 0.050
     if bool == false then
         transition.to(line_logo_group, {time = 300, alpha = transparency})
         transition.to(button_group, {time = 300, alpha = transparency})

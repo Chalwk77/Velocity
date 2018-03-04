@@ -12,7 +12,7 @@ local function setUpDisplay(group)
     local screenWidth = display.viewableContentWidth - screenLeft * 2
     local screenTop = display.screenOriginY
     local screenHeight = display.viewableContentHeight - screenTop * 2
-    background = display.newImage( group, "images/backgrounds/background1.png" )
+    background = display.newImage( group, "images/backgrounds/jobs_background.png" )
     background.x = display.contentWidth * 0.5
     background.y = display.contentHeight * 0.5
     local scale = math.max( screenWidth / background.width, screenHeight / background.height )

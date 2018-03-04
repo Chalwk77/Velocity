@@ -3,8 +3,8 @@ settings =
     plugins =
     {
     ['plugin.toast'] = {publisherId = 'com.spiralcodestudio'},
-        ["plugin.braintonik-dialog"] = {publisherId = "com.braintonik"},
-        ["plugin.notifications.v2"] = {publisherId = "com.coronalabs"},
+    ["plugin.notifications.v2"] = {publisherId = "com.coronalabs"},
+    ["plugin.braintonik-dialog"] = {publisherId = "com.braintonik"},
     },
   	excludeFiles =
   	{

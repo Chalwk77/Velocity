@@ -53,6 +53,5 @@ init_loading_screen = function(scene_name, delay)
         composer.gotoScene('modules.loading', {effect = "crossFade", time = 0})
     end)
 end
-
---composer.gotoScene( "scenes.menu" )
-composer.gotoScene( "scenes.loginScreen" )
+composer.gotoScene( "scenes.menu" )
+--composer.gotoScene( "scenes.loginScreen" )
