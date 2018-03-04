@@ -4,7 +4,6 @@
 -----------------------------------------------------------------------------------------
 local composer = require( "composer" )
 local widget = require("widget")
-local uiLib = require("plugin.braintonik-dialog")
 local sidebar = require("modules.sidebar")
 local scene = composer.newScene()
 local logo
@@ -54,6 +53,7 @@ function scene:create( event )
     logo_line:setStrokeColor(0.3, 0.1, 0.2, 1)
     logo_line.alpha = 1
     line_logo_group:insert(logo_line)
+    group:insert(line_logo_group)
     -------------- [CREATE SIDEBAR] --------------
     sidebar_buttons = { }
     sidebar_buttons[1] = {"images/messages.png", 34, 34, "Messages", "scenes.messages", 13}
@@ -64,40 +64,49 @@ function scene:create( event )
     sidebar_buttons[6] = {"images/buttons/logout.png", 100, 34, "", "scenes.loginScreen", 13}
     sidebar:new()
     ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
     local function buttonCallback(event)
         local sceneID = event.target.id
         local options = {effect = "crossFade", time = 200, params = {title = event.target.id}}
         if sceneID == "exit" then
             showDialog("CONFIRM EXIT", "Are you sure you want to exit?", 22)
         elseif sceneID == "menu" then
-            sidebar:show()
+            if (sidebar_open == true) then
+                sidebar:hide()
+                transition.to(line_logo_group, {time = 300, alpha = 1})
+            else
+                transition.to(line_logo_group, {time = 300, alpha = 0.2})
+                sidebar:show()
+            end
         else
             composer.gotoScene( sceneID, options )
         end
     end
-
-    menu_buttons = {}
-    --                 label, id, x,y, width, height, label-size
+    buttons = {}
     local spacing = 50
-    menu_buttons[1] = {"MENU", "menu", centerX, centerX + centerY - 175, 100, 25, 45}
-    menu_buttons[2] = {"JOBS", "scenes.jobs", centerX, centerX + centerY - 175 + spacing, 100, 25, 45}
-    menu_buttons[3] = {"CALENDER", "scenes.calender", centerX, centerX + centerY - 175 + spacing + spacing, 100, 25, 45}
-    menu_buttons[4] = {"EXIT", "exit", centerX, centerX + centerY - 175 + spacing + spacing + spacing, 100, 25, 45}
-    for k, v in pairs(menu_buttons) do
-        local new_button = widget.newButton ({
-            label = menu_buttons[k][1],
-            id = menu_buttons[k][2],
-            labelColor = {default = {10 / 255, 110 / 255, 0 / 255}, over = {50 / 255, 180 / 255, 255 / 255}},
+    local b_width = 100
+    local b_height = 25
+    local b_fontsize = 45
+    buttons[1] = {"MENU", "menu", centerX, centerX + centerY - 175, b_width, b_height, b_fontsize}
+    buttons[2] = {"JOBS", "scenes.jobs", centerX, centerX + centerY - 175 + (spacing), b_width, b_height, b_fontsize}
+    buttons[3] = {"CALENDAR", "scenes.calendar", centerX, centerX + centerY - 175 + (spacing * 2), b_width, b_height, b_fontsize}
+    buttons[4] = {"EXIT", "exit", centerX, centerX + centerY - 175 + (spacing * 3), b_width, b_height, b_fontsize}
+    for k, v in pairs(buttons) do
+        local underlay = display.newRoundedRect(0, 0, 150, 30, 25)
+        menu_button = widget.newButton ({
+            label = buttons[k][1],
+            id = buttons[k][2],
+            labelColor = {default = {0 / 34, 171, 201}, over = {50 / 255, 180 / 255, 255 / 255}},
             onRelease = buttonCallback
         })
-        new_button.x = menu_buttons[k][3]
-        new_button.y = menu_buttons[k][4]
-        new_button.width = menu_buttons[k][5]
-        new_button.height = menu_buttons[k][6]
-        new_button._view._label.size = menu_buttons[k][7]
+        menu_button.x = buttons[k][3]
+        menu_button.y = buttons[k][4]
+        menu_button.width = buttons[k][5]
+        menu_button.height = buttons[k][6]
+        menu_button._view._label.size = buttons[k][7]
+        underlay.x = menu_button.x
+        underlay.y = menu_button.y
+        underlay:setFillColor(0, 0, 0, 1)
     end
-    group:insert(line_logo_group)
 end
 
 function scene:show( event )

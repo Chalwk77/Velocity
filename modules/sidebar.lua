@@ -68,7 +68,6 @@ function sidebar:new(params)
             font = native.systemFontBold,
             labelColor = {default = {0.5, 0.1, 0.5}, over = {255, 255, 255}},
             onRelease = function()
-                print(button_id)
                 if (button_id == "scenes.loginScreen") then
                     showDialog("LOGOUT", "Are you sure you want to logout?", 22, "logout")
                     sidebar:hide()
@@ -107,18 +106,18 @@ function sidebar:new(params)
     return group
 end
 
+function sidebar:show()
+    sidebar_open = true
+    group.isVisible = true
+    button_group.isVisible = true
+    transition.to(group, {time = 200, alpha = 1, x = 0, y = group.y})
+    transition.to(button_group, {time = 200, alpha = 1, y = group.y, x = temp_group})
+end
+
 function sidebar:hide()
     sidebar_open = false
     transition.to(group, {time = 200, alpha = 0, x = - group.width, y = group.y})
     transition.to(button_group, {time = 200, alpha = 0, x = - group.width})
-end
-
-function sidebar:show()
-    group.isVisible = true
-    button_group.isVisible = true
-    sidebar_open = true
-    transition.to(group, {time = 200, alpha = 1, x = 0, y = group.y})
-    transition.to(button_group, {time = 200, alpha = 1, y = group.y, x = temp_group})
 end
 
 function draw_seperator(x, y, r, g, b)
