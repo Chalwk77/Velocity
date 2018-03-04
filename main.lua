@@ -1,3 +1,7 @@
+-----------------------------------------------------------------------------------------
+-- main.lua
+-- (c) 2018, Velocity by Jericho Crosby <jericho.crosby227@gmail.com>
+-----------------------------------------------------------------------------------------
 local composer = require( "composer" )
 local http = require "socket.http"
 local ltn12 = require("ltn12")

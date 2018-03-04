@@ -95,7 +95,7 @@ function scene:create( event )
         menu_button = widget.newButton ({
             label = buttons[k][1],
             id = buttons[k][2],
-            labelColor = {default = {0 / 34, 171, 201}, over = {50 / 255, 180 / 255, 255 / 255}},
+            labelColor = {default = {color_table.RGB("indigo")}, over = {color_table.RGB("violet")}},
             onRelease = buttonCallback
         })
         menu_button.x = buttons[k][3]

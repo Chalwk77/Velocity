@@ -1,3 +1,7 @@
+-----------------------------------------------------------------------------------------
+-- utility.lua
+-- (c) 2018, Velocity by Jericho Crosby <jericho.crosby227@gmail.com>
+-----------------------------------------------------------------------------------------
 local composer = require( "composer" )
 composer.effectList["slideFromLeft"] = {
     sceneAbove = true,
