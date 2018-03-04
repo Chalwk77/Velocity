@@ -28,6 +28,7 @@ local function setUpDisplay(group)
             x = x * spacing + display.contentCenterX,
             y = display.contentCenterX + y * spacing + height,
             onRelease = function()
+                showUI(false)
                 composer.gotoScene( "scenes.menu", {effect = "crossFade", time = 100})
             end
         }

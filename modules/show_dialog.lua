@@ -34,8 +34,8 @@ function showDialog(title, string, font_size, bool)
             user_logged_out = true
             background.isVisible = false
             init_loading_screen('scenes.loginScreen', 2500)
-            -- lol @ tina
         elseif id == "NO" then
+            showUI(false)
             background.isVisible = false
         end
     end

@@ -8,6 +8,7 @@ local sidebar = {}
 local group = display.newGroup()
 local button_group
 local temp_group
+local buttons
 
 local xScreen = display.contentCenterX - display.actualContentWidth / 2
 local wScreen = display.actualContentWidth
@@ -81,6 +82,8 @@ function sidebar:new(params)
                 end
             end
         })
+        buttons:setFillColor( 0, 0, 0, 0)
+        buttons._view._hasAlphaFade = false
         buttons._view._label.size = sidebar_buttons[k][6]
         buttons.x = background.x + 110
         button_group.x = background.x - 160
@@ -116,6 +119,19 @@ function sidebar:show()
     button_group.isVisible = true
     transition.to(group, {time = 200, alpha = 1, x = 0, y = group.y})
     transition.to(button_group, {time = 200, alpha = 1, y = group.y, x = temp_group})
+    timer.performWithDelay(0, background_listener)
+end
+
+function background_listener()
+    local function bgListener(event)
+        if sidebar_open == true then
+            sidebar:hide()
+            showUI(false)
+            menu_background:removeEventListener( "tap", bgListener )
+        elseif sidebar_open == false then
+        end
+    end
+    menu_background:addEventListener( "tap", bgListener)
 end
 
 function sidebar:hide()

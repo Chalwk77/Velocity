@@ -10,29 +10,31 @@ local logo
 local background
 local onMouseEvent
 local line_logo_group
+local button_group
+
+local xScreen = display.contentCenterX - display.actualContentWidth / 2
+local wScreen = display.actualContentWidth
+local yScreen = display.contentCenterY - display.actualContentHeight / 2
+local hScreen = display.actualContentHeight
+local centerX = display.contentCenterX
+local centerY = display.contentCenterY
 
 function scene:create( event )
+    button_group = display.newGroup()
     line_logo_group = display.newGroup()
     scene.menu = 0
     local group = display.newGroup()
-    self.view:insert( group )
+    self.view:insert(group)
 
-    local xScreen = display.contentCenterX - display.actualContentWidth / 2
-    local wScreen = display.actualContentWidth
-    local yScreen = display.contentCenterY - display.actualContentHeight / 2
-    local hScreen = display.actualContentHeight
-    local centerX = display.contentCenterX
-    local centerY = display.contentCenterY
+    -------------- [MENU BACKGROUND] --------------
+    menu_background = display.newImage(group, "images/backgrounds/background1.png")
+    menu_background.x = display.contentWidth * 0.5
+    menu_background.y = display.contentHeight * 0.5
+    local scale = math.max( wScreen / menu_background.width, hScreen / menu_background.height )
+    menu_background:scale( scale, scale )
+    group:insert(menu_background)
 
-    -- create menu background
-    background = display.newImage( group, "images/backgrounds/background1.png" )
-    background.x = display.contentWidth * 0.5
-    background.y = display.contentHeight * 0.5
-    local scale = math.max( wScreen / background.width, hScreen / background.height )
-    background:scale( scale, scale )
-    group:insert(background)
-
-    -- create logo
+    -------------- [MENU LOGO] --------------
     logo = display.newImage("images/logo.png")
     logo.x = display.contentCenterX + - 3
     logo.y = display.contentCenterY - 200
@@ -45,7 +47,7 @@ function scene:create( event )
     local rightX = display.contentWidth - display.screenOriginX
     local screenW = rightX - leftX
 
-    -- create logo
+    -------------- [LOGO LINE] --------------
     logo_line = display.newLine(leftX + screenW + 35, bottomY, rightX - screenW + 35, bottomY)
     logo_line.x = screenW
     logo_line.y = logo.y + 55
@@ -72,40 +74,73 @@ function scene:create( event )
         elseif sceneID == "menu" then
             if (sidebar_open == true) then
                 sidebar:hide()
-                transition.to(line_logo_group, {time = 300, alpha = 1})
+                showUI(false)
             else
-                transition.to(line_logo_group, {time = 300, alpha = 0.2})
                 sidebar:show()
+                hideUI(false)
             end
         else
+            hideUI(true)
             composer.gotoScene( sceneID, options )
         end
     end
     buttons = {}
     local spacing = 50
-    local b_width = 100
-    local b_height = 25
+    local b_width = 135
+    local b_height = 34
     local b_fontsize = 45
     buttons[1] = {"MENU", "menu", centerX, centerX + centerY - 175, b_width, b_height, b_fontsize}
     buttons[2] = {"JOBS", "scenes.jobs", centerX, centerX + centerY - 175 + (spacing), b_width, b_height, b_fontsize}
-    buttons[3] = {"CALENDAR", "scenes.calendar", centerX, centerX + centerY - 175 + (spacing * 2), b_width, b_height, b_fontsize}
+    buttons[3] = {"CALENDAR", "scenes.calendar", centerX, centerX + centerY - 175 + (spacing * 2), b_width, b_height, 42}
     buttons[4] = {"EXIT", "exit", centerX, centerX + centerY - 175 + (spacing * 3), b_width, b_height, b_fontsize}
     for k, v in pairs(buttons) do
-        local underlay = display.newRoundedRect(0, 0, 150, 30, 25)
-        menu_button = widget.newButton ({
+        menu_button = widget.newButton{
             label = buttons[k][1],
             id = buttons[k][2],
-            labelColor = {default = {color_table.RGB("indigo")}, over = {color_table.RGB("violet")}},
-            onRelease = buttonCallback
-        })
+            emboss = false,
+            shape = "roundedRect",
+            width = 250,
+            height = 50,
+            cornerRadius = 20,
+            fillColor = {default = {color_table.RGB("darkpurple")}, over = {color_table.RGB("violet")}},
+            strokeColor = {default = {color_table.RGB("white")}, over = {color_table.RGB("purple")}},
+            strokeWidth = 7,
+            labelColor = {default = {color_table.RGB("indigo")}, over = {color_table.RGB("white")}},
+        onRelease = buttonCallback}
         menu_button.x = buttons[k][3]
         menu_button.y = buttons[k][4]
         menu_button.width = buttons[k][5]
         menu_button.height = buttons[k][6]
         menu_button._view._label.size = buttons[k][7]
-        underlay.x = menu_button.x
-        underlay.y = menu_button.y
-        underlay:setFillColor(0, 0, 0, 1)
+        button_group:insert(menu_button)
+    end
+end
+
+hideUI = function(bool)
+    local transparency = 0.2
+    if bool == false then
+        transition.to(line_logo_group, {time = 300, alpha = transparency})
+        transition.to(button_group, {time = 300, alpha = transparency})
+    elseif bool == true then
+        transition.to(line_logo_group, {time = 300, alpha = 0})
+        transition.to(button_group, {time = 300, alpha = 0})
+    elseif bool == nil then
+        transition.to(line_logo_group, {time = 300, alpha = transparency})
+        transition.to(button_group, {time = 300, alpha = transparency})
+    end
+end
+
+showUI = function(bool)
+    local transparency = 1
+    if bool == false then
+        transition.to(line_logo_group, {time = 300, alpha = transparency})
+        transition.to(button_group, {time = 300, alpha = transparency})
+    elseif bool == true then
+        transition.to(line_logo_group, {time = 300, alpha = 0})
+        transition.to(button_group, {time = 300, alpha = 0})
+    elseif bool == nil then
+        transition.to(line_logo_group, {time = 300, alpha = transparency})
+        transition.to(button_group, {time = 300, alpha = transparency})
     end
 end
 
@@ -114,9 +149,6 @@ function scene:show( event )
     local phase = event.phase
     if ( phase == "will" ) then
     elseif ( phase == "did" ) then
-        logo_line.isVisible = true
-        logo.isVisible = true
-        line_logo_group.alpha = 1
     end
 end
 
@@ -124,22 +156,12 @@ function scene:hide( event )
     local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "will" ) then
-        -- do nothing
     elseif ( phase == "did" ) then
-        logo_line.isVisible = false
-        logo.isVisible = false
     end
 end
 
--- -----------------------------------------------------------------------------------
--- Scene event function listeners
--- -----------------------------------------------------------------------------------
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
-
-function OnError(Message)
-    print(debug.traceback())
-end
 
 return scene

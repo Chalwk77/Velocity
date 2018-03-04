@@ -30,6 +30,7 @@ function scene:show( event )
         local onClickDate
         local function onCalendarButton(event)
             stop_animation = true
+            showUI(false)
             composer.gotoScene("scenes.menu")
         end
         local bool = 0
