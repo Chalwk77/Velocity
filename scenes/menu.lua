@@ -56,14 +56,6 @@ function scene:create( event )
     logo_line.alpha = 1
     line_logo_group:insert(logo_line)
     group:insert(line_logo_group)
-    -------------- [CREATE SIDEBAR] --------------
-    sidebar_buttons = { }
-    sidebar_buttons[1] = {"images/messages.png", 34, 34, "Messages", "scenes.messages", 13}
-    sidebar_buttons[2] = {"images/settings.png", 34, 34, "Settings", "scenes.settings", 13}
-    sidebar_buttons[3] = {"images/notes.png", 34, 34, "Notes", "scenes.notes", 13}
-    sidebar_buttons[4] = {"images/jobs.png", 34, 34, "Jobs", "scenes.jobs", 13}
-    sidebar_buttons[5] = {"images/help.png", 34, 34, "Help", "scenes.help", 13}
-    sidebar_buttons[6] = {"images/buttons/logout.png", 100, 34, "", "scenes.loginScreen", 13}
     sidebar:new()
     ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     local function buttonCallback(event)
@@ -91,7 +83,7 @@ function scene:create( event )
     local b_fontsize = 45
     buttons[1] = {"MENU", "menu", centerX, centerX + centerY - 175, b_width, b_height, b_fontsize}
     buttons[2] = {"JOBS", "scenes.jobs", centerX, centerX + centerY - 175 + (spacing), b_width, b_height, b_fontsize}
-    buttons[3] = {"CALENDAR", "scenes.calendar", centerX, centerX + centerY - 175 + (spacing * 2), b_width, b_height, 42}
+    buttons[3] = {"CALENDAR", "scenes.calendar", centerX, centerX + centerY - 175 + (spacing * 2), b_width, b_height, b_fontsize}
     buttons[4] = {"EXIT", "exit", centerX, centerX + centerY - 175 + (spacing * 3), b_width, b_height, b_fontsize}
     for k, v in pairs(buttons) do
         menu_button = widget.newButton{
@@ -102,6 +94,7 @@ function scene:create( event )
             width = 250,
             height = 50,
             cornerRadius = 20,
+            labelYOffset = 0,
             fillColor = {default = {color_table.RGB("darkpurple")}, over = {color_table.RGB("violet")}},
             strokeColor = {default = {color_table.RGB("white")}, over = {color_table.RGB("purple")}},
             strokeWidth = 7,
@@ -142,6 +135,7 @@ showUI = function(bool)
         transition.to(line_logo_group, {time = 300, alpha = transparency})
         transition.to(button_group, {time = 300, alpha = transparency})
     end
+    menu_background:removeEventListener("tap", bgListener)
 end
 
 function scene:show( event )

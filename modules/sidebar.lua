@@ -21,6 +21,15 @@ local leftX = display.screenOriginX
 local rightX = display.contentWidth - display.screenOriginX
 local screenW = (display.contentWidth - display.screenOriginX) - (display.screenOriginX)
 
+-------------- [CREATE SIDEBAR] --------------
+sidebar_buttons = { }
+sidebar_buttons[1] = {"images/messages.png", 34, 34, "Messages", "scenes.messages", 13}
+sidebar_buttons[2] = {"images/settings.png", 34, 34, "Settings", "scenes.settings", 13}
+sidebar_buttons[3] = {"images/notes.png", 34, 34, "Notes", "scenes.notes", 13}
+sidebar_buttons[4] = {"images/jobs.png", 34, 34, "Jobs", "scenes.jobs", 13}
+sidebar_buttons[5] = {"images/help.png", 34, 34, "Help", "scenes.help", 13}
+sidebar_buttons[6] = {"images/buttons/logout.png", 120, 64, "", "scenes.loginScreen", 13}
+
 function sidebar:new(params)
     button_group = display.newGroup()
     local background
@@ -53,12 +62,20 @@ function sidebar:new(params)
         0, 1, 0.5, 0, --blue
         0.5, 1, 0, 1 --alpha
     }
-
     logo = display.newImage(group, "images/sidebar_logo.png" )
     logo.x = background.x
     logo.y = background.y - 220
     logo:scale(0.2, 0.2)
-
+    local function buttonCallback(event)
+        local sceneID = event.target.id
+        if sceneID == "scenes.loginScreen" then
+            showDialog("CONFIRM EXIT", "Are you sure you want to exit?", 22)
+        else
+            sidebar:hide()
+            hideUI(true)
+            composer.gotoScene(sceneID, {effect = "crossFade", time = 200, params = {title = event.target.id}})
+        end
+    end
     for k, v in pairs(sidebar_buttons) do
         count = count + 1
         local spacing = 100
@@ -67,21 +84,13 @@ function sidebar:new(params)
         button_image.width = sidebar_buttons[k][2]
         button_image.height = sidebar_buttons[k][3]
         buttons = widget.newButton({
+            id = button_id,
             left = 0,
             top = 0,
             label = sidebar_buttons[k][4],
             font = native.systemFontBold,
             labelColor = {default = {0.5, 0.1, 0.5}, over = {255, 255, 255}},
-            onRelease = function()
-                if (button_id == "scenes.loginScreen") then
-                    showDialog("LOGOUT", "Are you sure you want to logout?", 22, "logout")
-                    sidebar:hide()
-                else
-                    composer.gotoScene(button_id, {effect = "crossFade", time = 100})
-                    sidebar:hide()
-                end
-            end
-        })
+        onRelease = buttonCallback})
         buttons:setFillColor( 0, 0, 0, 0)
         buttons._view._hasAlphaFade = false
         buttons._view._label.size = sidebar_buttons[k][6]
@@ -89,7 +98,7 @@ function sidebar:new(params)
         button_group.x = background.x - 160
         buttons.y = button_group.height + buttons.height + spacing
         if (button_id == "scenes.loginScreen") then
-            buttons.x = buttons.x + 25
+            buttons.x = buttons.x + 45
             buttons.y = buttons.y + 20
         end
         button_image.x = buttons.x - 155
@@ -123,16 +132,18 @@ function sidebar:show()
 end
 
 function background_listener()
-    local function bgListener(event)
+    bgListener = function(bool)
         if sidebar_open == true then
             sidebar:hide()
             showUI(false)
-            menu_background:removeEventListener( "tap", bgListener )
-        elseif sidebar_open == false then
+            menu_background:removeEventListener("tap", bgListener)
+        else
+            menu_background:removeEventListener("tap", bgListener)
         end
     end
     menu_background:addEventListener( "tap", bgListener)
 end
+
 
 function sidebar:hide()
     sidebar_open = false
