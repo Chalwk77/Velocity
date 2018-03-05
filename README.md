@@ -4,13 +4,13 @@
 - - - -
 # Velocity | Utility Application
 ### This application is still in the very early stages of development.
-### Velocity is a utility mod designed for use by my family and community of friends. 
+### Velocity is a utility mod designed for use by my family and community of friends.
 
 ALPHA: [webstore](https://play.google.com/store/apps/details?id=com.gmail.crosby227.jericho.Velocity)
 - - - -
 ## Features:
 > * Private Messaging
-> * Calender
+> * In-App custom Calender
 > * Community Roster
 > * Note-Board
 > * Local and Push Notifications
