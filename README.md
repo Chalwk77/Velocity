@@ -1,6 +1,6 @@
 (c) 2018, Velocity, Jericho Crosby <jericho.crosby227@gmail.com>
 
-![Logo](https://i.imgur.com/t0W5aJe.png) ![Logo](https://imgur.com/a/DRROw)
+![Logo](https://i.imgur.com/DRROw.png)
 
 - - - -
 # Velocity | Utility Application
