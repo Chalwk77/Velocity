@@ -179,6 +179,7 @@ function scene:show( event )
     local phase = event.phase
     if ( phase == "will" ) then
     elseif ( phase == "did" ) then
+        if application_version ~= nil then application_version.isVisible = true end
     end
 end
 

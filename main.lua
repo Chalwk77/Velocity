@@ -29,6 +29,7 @@ local function networkListener(event)
                         application_version.x = display.contentCenterX
                         application_version.y = display.contentCenterX + display.contentCenterY - height_from_bottom
                         application_version.alpha = 0.50
+                        application_version.isVisible = false
                     elseif (version.current < version.updated) then
                         local function onTextClick( event )
                             if ( event.phase == "began" ) then
@@ -42,6 +43,7 @@ local function networkListener(event)
                         application_version.y = display.contentCenterX + display.contentCenterY - height_from_bottom
                         application_version.alpha = 0.50
                         application_version:addEventListener( "touch", onTextClick )
+                        application_version.isVisible = false
                     end
                     print("Google Play App Version: " .. google_play_version)
                 end
@@ -66,5 +68,5 @@ init_loading_screen = function(scene_name, delay)
     end)
 end
 
-composer.gotoScene( "scenes.menu" )
---composer.gotoScene( "scenes.loginScreen" )
+--composer.gotoScene( "scenes.menu" )
+composer.gotoScene( "scenes.loginScreen" )
