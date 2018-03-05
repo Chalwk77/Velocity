@@ -6,11 +6,13 @@
 ### This application is still in the very early stages of development.
 #### Description: [webstore](https://play.google.com/store/apps/details?id=com.gmail.crosby227.jericho.Velocity)
 > This application is a utility mod designed for use by my family and community.
-> Features:
+- - - -
+## Features:
 > * Private Messaging
 > * Calender
 > * Community Roster
 > * Note-Board
 > * Local and Push Notifications
 > * User Profiles
-> ... and more ...
+
+... and more ...
