@@ -279,6 +279,7 @@ function scene:show(event)
     local sceneGroup = self.view
     local phase = event.phase
     if (phase == "did") then
+        if application_version ~= nil then application_version.isVisible = false end
         if (user_logged_out ~= nil and user_logged_out == true) then
             scene:create()
         elseif (user_logged_out ~= nil and user_logged_out == false) then
