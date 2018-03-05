@@ -31,6 +31,7 @@ function showDialog(title, string, font_size, bool)
     end
     local function logoutPrompt(id)
         if id == "YES" then
+            hideUI(true)
             user_logged_out = true
             background.isVisible = false
             init_loading_screen('scenes.loginScreen', 2500)

@@ -73,7 +73,7 @@ function sidebar:new()
     local function buttonCallback(event)
         local sceneID = event.target.id
         if sceneID == "scenes.loginScreen" then
-            showDialog("CONFIRM EXIT", "Are you sure you want to exit?", 22)
+            showDialog("CONFIRM LOGOUT", "Are you sure you want to logout?", 22)
         else
             sidebar:hide()
             hideUI(true)

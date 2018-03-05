@@ -43,7 +43,11 @@ function scene:create(event)
     frame_group:insert(logo)
     sidebar:new()
     ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    local function buttonCallback(event)
+    local function onButtonPress(event)
+        -- transition.to(event.target, {time = 100, xScale = 0.6, yScale = 0.7})
+    end
+    local function onButtonRelease(event)
+        -- transition.to(event.target, {time = 0, xScale = prevXScale, yScale = prevYScale})
         local sceneID = event.target.id
         local options = {effect = "crossFade", time = 200, params = {title = event.target.id}}
         if sceneID == "exit" then
@@ -56,6 +60,8 @@ function scene:create(event)
                 sidebar:show()
                 hideUI(false)
             end
+        elseif sceneID == "logout" then
+            showDialog("CONFIRM LOGOUT", "Are you sure you want to logout?", 22, "logout")
         else
             hideUI(true)
             composer.gotoScene(sceneID, options)
@@ -66,30 +72,33 @@ function scene:create(event)
     local b_width = 135
     local b_height = 34
     local b_fontsize = 40
-    buttons[1] = {"MENU", "menu", centerX, centerX + centerY - 175, b_width, b_height, b_fontsize}
-    buttons[2] = {"JOBS", "scenes.jobs", centerX, centerX + centerY - 175 + (spacing), b_width, b_height, b_fontsize}
-    buttons[3] = {"CALENDAR", "scenes.calendar", centerX, centerX + centerY - 175 + (spacing * 2), b_width, b_height, b_fontsize}
-    buttons[4] = {"EXIT", "exit", centerX, centerX + centerY - 175 + (spacing * 3), b_width, b_height, b_fontsize}
+    -- LABEL | scene | x,y | width | height | fontsize | fillcolor(default) | fillcolor(over) | strokecolor(default) | strokecolor(over)
+    buttons[1] = {"MENU", "menu", centerX, centerX + centerY - 175, b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
+    buttons[2] = {"JOBS", "scenes.jobs", centerX, centerX + centerY - 175 + (spacing), b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
+    buttons[3] = {"CALENDAR", "scenes.calendar", centerX, centerX + centerY - 175 + (spacing * 2), b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
+    buttons[4] = {"EXIT", "exit", centerX, centerX + centerY - 175 + (spacing * 3), b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
+    buttons[5] = {"LOGOUT", "logout", centerX, centerX + centerY - 175 + (spacing * 4), b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
     for k, v in pairs(buttons) do
         menu_button = widget.newButton{
             label = buttons[k][1],
             id = buttons[k][2],
-            emboss = false,
             labelColor = {default = {color_table.color("indigo")}, over = {color_table.color("white")}},
             shape = "roundedRect",
             width = 250,
             height = 50,
             cornerRadius = 20,
             labelYOffset = 0,
-            fillColor = {default = {color_table.color("skyblue")}, over = {color_table.color("skyblue2")}},
-            strokeColor = {default = {color_table.color("lavenderblush")}, over = {color_table.color("lawngreen")}},
+            fillColor = {default = {color_table.color(buttons[k][8])}, over = {color_table.color(buttons[k][9])}},
+            strokeColor = {default = {color_table.color(buttons[k][10])}, over = {color_table.color(buttons[k][11])}},
             strokeWidth = 7,
-        onRelease = buttonCallback}
+        onPress = onButtonPress, onRelease = onButtonRelease}
         menu_button.x = buttons[k][3]
         menu_button.y = buttons[k][4]
         menu_button.width = buttons[k][5]
         menu_button.height = buttons[k][6]
         menu_button._view._label.size = buttons[k][7]
+        -- prevXScale = menu_button.xScale
+        -- prevYScale = menu_button.yScale
         button_group:insert(menu_button)
         absoluteX = button_group.x
         absoluteY = button_group.y
