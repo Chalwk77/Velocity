@@ -1,7 +1,6 @@
 (c) 2018, Velocity, Jericho Crosby <jericho.crosby227@gmail.com>
 
 ![Logo](https://i.imgur.com/v2Wxz8E.png)
-
 - - - -
 # Velocity | Utility Application
 ### This application is still in the very early stages of development.
@@ -14,4 +13,4 @@
 > * Note-Board
 > * Local and Push Notifications
 > * User Profiles
-...and more...
+> ... and more ...
