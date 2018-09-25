@@ -26,7 +26,7 @@ sidebar_buttons = { }
 sidebar_buttons[1] = {"images/messages.png", 34, 34, "Messages", "scenes.messages", 16}
 sidebar_buttons[2] = {"images/settings.png", 34, 34, "Settings", "scenes.settings", 16}
 sidebar_buttons[3] = {"images/notes.png", 34, 34, "Notes", "scenes.notes", 16}
-sidebar_buttons[4] = {"images/jobs.png", 34, 34, "Jobs", "scenes.jobs", 16}
+sidebar_buttons[4] = {"images/roster.png", 34, 34, "Roster", "scenes.roster", 16}
 sidebar_buttons[5] = {"images/help.png", 34, 34, "Help", "scenes.help", 16}
 sidebar_buttons[6] = {"images/buttons/logout.png", 34, 34, "Logout", "scenes.loginScreen", 16}
 

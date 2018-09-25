@@ -8,10 +8,12 @@ local widget = require("widget")
 local editing
 local absolute_coordinates
 local UIGroup
+
+-- Usernames and passwords are currently hard-coded into this application.
 local users = {
     ["Chalwk77"] = {"vm315", "Jericho"},
-    ["Kourtney91"] = {"admin", "Kourtney"},
-    ["Kaitlyn97"] = {"admin", "Kaitlyn"}
+    ["empty_slot_1"] = {"password", "persons_name"},
+    ["empty_slot_1"] = {"password", "persons_name"}
 }
 
 function scene:create( event )

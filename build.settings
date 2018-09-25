@@ -17,7 +17,7 @@ settings =
     android =
   	{
   		installLocation = 'auto',
-  		usesPermissions = {"android.permission.INTERNET", "android.permission.WRITE_EXTERNAL_STORAGE",},
+  		usesPermissions = {"android.permission.INTERNET", "android.permission.WRITE_EXTERNAL_STORAGE","android.permission.VIBRATE"},
   	},
     orientation =
   	{

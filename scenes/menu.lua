@@ -51,6 +51,7 @@ function scene:create(event)
         local sceneID = event.target.id
         local options = {effect = "crossFade", time = 200, params = {title = event.target.id}}
         if sceneID == "exit" then
+            system.vibrate()
             showDialog("CONFIRM EXIT", "Are you sure you want to exit?", 22)
         elseif sceneID == "menu" then
             if (sidebar_open == true) then
@@ -61,6 +62,7 @@ function scene:create(event)
                 hideUI(false)
             end
         elseif sceneID == "logout" then
+            system.vibrate()
             showDialog("CONFIRM LOGOUT", "Are you sure you want to logout?", 22, "logout")
         else
             hideUI(true)
@@ -71,11 +73,11 @@ function scene:create(event)
     local spacing = 50
     local b_width = 135
     local b_height = 34
-    local b_fontsize = 40
+    local b_fontsize = 30
     -- LABEL | scene | x,y | width | height | fontsize | fillcolor(default) | fillcolor(over) | strokecolor(default) | strokecolor(over)
     buttons[1] = {"MENU", "menu", centerX, centerX + centerY - 175, b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
-    buttons[2] = {"JOBS", "scenes.jobs", centerX, centerX + centerY - 175 + (spacing), b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
-    buttons[3] = {"CALENDAR", "scenes.calendar", centerX, centerX + centerY - 175 + (spacing * 2), b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
+    buttons[2] = {"SCENE_TWO", "scenes.scene_two", centerX, centerX + centerY - 175 + (spacing), b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
+    buttons[3] = {"SCENE_THREE", "scenes.scene_three", centerX, centerX + centerY - 175 + (spacing * 2), b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
     buttons[4] = {"EXIT", "exit", centerX, centerX + centerY - 175 + (spacing * 3), b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
     buttons[5] = {"LOGOUT", "logout", centerX, centerX + centerY - 175 + (spacing * 4), b_width, b_height, b_fontsize, "skyblue", "skyblue2", "lavenderblush", "crimson"}
     for k, v in pairs(buttons) do
